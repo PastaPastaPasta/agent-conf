@@ -1,0 +1,5 @@
+{
+ "default": {
+  "description": "Default machine setup (override or add hosts in your private overlay)"
+ }
+}

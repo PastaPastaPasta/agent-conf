@@ -1,0 +1,7 @@
+[Unit]
+Description=agent-config sync (skills, instructions, memory)
+
+[Service]
+Type=oneshot
+ExecStart=@RUNNER@
+TimeoutStartSec=900

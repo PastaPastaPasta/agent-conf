@@ -1,0 +1,4 @@
+interface:
+  display_name: "Rank Dash PR Readiness"
+  short_description: "Semantic merge-readiness report for Dash PRs"
+  default_prompt: "Use $rank-dash-pr-readiness to rank all open Dash Core pull requests by semantic merge readiness and generate an HTML report."

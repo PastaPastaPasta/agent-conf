@@ -1,0 +1,48 @@
+#!/usr/bin/python3
+"""Scheduler bootstrap. `agent-config setup` copies this outside the repo (rerun setup to update it).
+
+It takes the sync lock, brings the live copy to origin/main with plain git, then runs that copy's
+`agent-config sync` while still holding the lock. A broken commit is therefore fixed by pushing a new one,
+and nothing resets the live copy under a running sync. Edits someone made inside the live copy are saved
+as a patch first, never lost.
+"""
+import fcntl, os, subprocess, sys, time
+
+HOME = os.environ.get("AGENT_CONFIG_HOME") or os.path.expanduser("~")
+DATA = os.path.join(HOME, ".local/share/agent-config")
+LIVE = os.path.join(DATA, "live")
+os.environ.update(GIT_TERMINAL_PROMPT="0", GIT_HTTP_LOW_SPEED_LIMIT="1000", GIT_HTTP_LOW_SPEED_TIME="60",
+                  GIT_SSH_COMMAND="ssh -o BatchMode=yes -o ConnectTimeout=20 -o ServerAliveInterval=15 -o ServerAliveCountMax=4")
+
+
+def git(*args, **kw):
+    return subprocess.run(["git", "-C", LIVE, *args], capture_output=True, text=True,
+                          encoding="utf-8", errors="replace", timeout=300, **kw)
+
+
+os.makedirs(DATA, exist_ok=True)
+lock = open(os.path.join(DATA, "sync.lock"), "w")
+try:
+    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+except BlockingIOError:
+    print(time.strftime("%Y-%m-%d %H:%M:%S"), "another sync is running; skipping", flush=True)
+    sys.exit(0)
+
+if not os.path.isdir(os.path.join(LIVE, ".git")):
+    work = os.path.join(HOME, "workspace/agent-conf")
+    if not os.path.isdir(os.path.join(work, ".git")):
+        work = os.path.join(HOME, "workspace/agent-config")
+    url = subprocess.run(["git", "-C", work, "remote", "get-url", "origin"],
+                         capture_output=True, text=True, encoding="utf-8", errors="replace").stdout.strip()
+    if subprocess.run(["git", "clone", "-q", url, LIVE]).returncode:
+        sys.exit(1)
+if git("diff", "--quiet", "HEAD").returncode:
+    os.makedirs(os.path.join(DATA, "live-edits"), exist_ok=True)
+    with open(os.path.join(DATA, "live-edits", time.strftime("%Y%m%dT%H%M%S") + "-bootstrap.patch"), "w") as f:
+        f.write(git("diff", "HEAD").stdout)
+if git("fetch", "-q", "origin", "main").returncode == 0:
+    git("reset", "-q", "--hard", "origin/main")
+
+os.set_inheritable(lock.fileno(), True)  # the sync we start keeps holding the lock
+os.environ["AGENT_CONFIG_LOCK_FD"] = str(lock.fileno())
+os.execv(sys.executable, [sys.executable, os.path.join(LIVE, "bin/agent-config"), "sync"])

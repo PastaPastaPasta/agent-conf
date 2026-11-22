@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Block obvious credentials: skills and instructions reach every machine.
+pat='gh[opsu]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{40,}|(^|[^A-Za-z0-9])sk-(ant-|proj-)?[A-Za-z0-9_-]{24,}|xox[abprs]-[A-Za-z0-9-]{20,}|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY-----'
+hits=$(git diff --cached -U0 --no-color | grep -E '^\+' | grep -Eo "$pat")  # no pipefail: grep -q would cut big diffs short
+[[ -z $hits ]] && exit 0
+echo "pre-commit: staged changes look like they contain a secret; remove it and retry:" >&2
+sed -E 's/^[^A-Za-z0-9-]?(.{8}).*/  \1…/' <<<"$hits" >&2
+exit 1

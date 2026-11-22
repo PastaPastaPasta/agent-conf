@@ -1,0 +1,4 @@
+interface:
+  display_name: "Platform Explorer API"
+  short_description: "Use Dash Platform Explorer REST endpoints"
+  default_prompt: "Use $platform-explorer-api to inspect the Platform Explorer API, choose the right endpoint, and build a working request or integration example."

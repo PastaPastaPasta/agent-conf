@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Simplifier"
+  short_description: "Find safe simplifications in new or changed code"
+  default_prompt: "Use $code-simplifier to review recent code changes and propose simplifications that preserve behavior."

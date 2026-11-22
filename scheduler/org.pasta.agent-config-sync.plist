@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Installed by `agent-config setup`; @...@ placeholders are filled in per machine. -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>org.pasta.agent-config-sync</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>@RUNNER@</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+  </dict>
+  <key>StartInterval</key>
+  <integer>900</integer>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>ProcessType</key>
+  <string>Background</string>
+  <key>StandardOutPath</key>
+  <string>@HOME@/Library/Logs/agent-config-sync.log</string>
+  <key>StandardErrorPath</key>
+  <string>@HOME@/Library/Logs/agent-config-sync.log</string>
+</dict>
+</plist>

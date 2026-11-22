@@ -1,0 +1,4 @@
+interface:
+  display_name: "Security Report Investigator"
+  short_description: "Independently validate security findings and severity"
+  default_prompt: "Use $security-report-investigator to validate this security report from scratch, confirm or refute the finding, reassess severity, and produce a regression test if the issue is real."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Capture Visual Evidence"
+  short_description: "Create trustworthy, useful screenshot evidence"
+  default_prompt: "Use $capture-visual-evidence to produce and verify accurate before/after screenshots for this change."

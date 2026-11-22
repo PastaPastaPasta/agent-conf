@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Review Investigator"
+  short_description: "Investigate human or bot code review feedback before changes"
+  default_prompt: "Use $rabbit-review-investigator to investigate this code review suggestion before making changes."

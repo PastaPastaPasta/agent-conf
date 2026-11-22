@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dash Security Auditor"
+  short_description: "Audit Dash Core consensus risks"
+  default_prompt: "Use $dash-core-security-auditor to review this Dash Core change for consensus, quorum, and security issues."

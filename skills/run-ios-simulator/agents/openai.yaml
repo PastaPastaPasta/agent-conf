@@ -1,0 +1,4 @@
+interface:
+  display_name: "iOS Simulator Runner"
+  short_description: "Build and launch exact iOS revisions safely"
+  default_prompt: "Use $run-ios-simulator to build this iOS app and launch it in a verified Simulator."

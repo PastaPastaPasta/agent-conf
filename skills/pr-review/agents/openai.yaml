@@ -1,0 +1,4 @@
+interface:
+  display_name: "PR Review"
+  short_description: "Generate a detailed, line-level PR review packet for `/pr-review <number>`"
+  default_prompt: "Run `/pr-review 123` for a detailed review packet with severity findings, check status, and explicit review outcome." 

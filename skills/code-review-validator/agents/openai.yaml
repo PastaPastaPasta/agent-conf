@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Review Validator"
+  short_description: "Run an unbiased quality review of code changes"
+  default_prompt: "Use $code-review-validator to audit the recent implementation for correctness, design risks, and regressions."

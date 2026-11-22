@@ -1,0 +1,13 @@
+[Unit]
+Description=Run agent-config sync every 15 minutes
+
+[Timer]
+# Wall-clock schedule. OnBootSec + OnUnitActiveSec never fired again after the user
+# manager restarted mid-uptime (agentbox, 2026-10-08): boot was long past, and the
+# new manager had no previous activation to count from, so sync stopped for 40 h.
+OnCalendar=*:0/15
+RandomizedDelaySec=60
+Persistent=true
+
+[Install]
+WantedBy=timers.target

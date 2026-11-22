@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dash PR Release Notes"
+  short_description: "Add Dash PR release-note snippets."
+  default_prompt: "Add or update a Dash PR release-note file in the correct repo format."

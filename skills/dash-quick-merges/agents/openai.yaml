@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dash Quick Merges"
+  short_description: "Triage recent Dash Core PRs for small, merge-ready changes"
+  default_prompt: "Review all recently opened PRs on dashpay/dash from the last month, sort them by closest to merge and smallest, and identify clearly correct changes ready to merge tonight with clickable links."

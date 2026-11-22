@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dash Functional Tests"
+  short_description: "Run Dash Core functional tests with datadirs on a RAM disk"
+  default_prompt: "Use $dash-functional-tests to run Dash Core functional tests on a RAM disk."

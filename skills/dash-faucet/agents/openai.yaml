@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dash Testnet Faucet"
+  short_description: "Send testnet DASH to a Dash testnet address"
+  default_prompt: "Use $dash-faucet to send tDASH to a Dash testnet address safely."

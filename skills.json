@@ -1,0 +1,266 @@
+{
+ "agentic-qa": {
+  "git": "https://github.com/PastaPastaPasta/agentic-qa.git",
+  "path": "workspace/agentic-qa",
+  "targets": [
+   "claude",
+   "cursor"
+  ]
+ },
+ "babysit": {
+  "targets": [
+   "antigravity",
+   "claude",
+   "codex",
+   "cursor",
+   "gemini"
+  ]
+ },
+ "backport": {
+  "targets": [
+   "antigravity",
+   "claude",
+   "codex",
+   "cursor",
+   "gemini"
+  ]
+ },
+ "backport-pr-codereview": {
+  "git": "https://github.com/PastaPastaPasta/dash-backport-review-skill.git",
+  "path": "workspace/dash-backport-review-skill",
+  "targets": [
+   "antigravity",
+   "claude",
+   "codex",
+   "cursor",
+   "gemini"
+  ]
+ },
+ "base-sdk": {
+  "targets": [
+   "claude",
+   "codex",
+   "cursor"
+  ]
+ },
+ "boat": {
+  "targets": [
+   "antigravity",
+   "claude",
+   "codex",
+   "cursor",
+   "gemini"
+  ]
+ },
+ "capture-visual-evidence": {
+  "targets": [
+   "antigravity",
+   "claude",
+   "codex",
+   "cursor",
+   "gemini"
+  ]
+ },
+ "code-review-validator": {
+  "targets": [
+   "antigravity",
+   "codex",
+   "cursor",
+   "gemini"
+  ]
+ },
+ "code-simplifier": {
+  "targets": [
+   "antigravity",
+   "codex",
+   "cursor",
+   "gemini"
+  ]
+ },
+ "council": {
+  "targets": [
+   "claude",
+   "codex",
+   "cursor"
+  ]
+ },
+ "dash-core-development": {
+  "targets": [
+   "antigravity",
+   "cursor",
+   "gemini"
+  ]
+ },
+ "dash-core-security-auditor": {
+  "targets": [
+   "antigravity",
+   "codex",
+   "cursor",
+   "gemini"
+  ]
+ },
+ "dash-faucet": {
+  "targets": [
+   "antigravity",
+   "claude",
+   "codex",
+   "cursor",
+   "gemini"
+  ]
+ },
+ "dash-functional-tests": {
+  "targets": [
+   "antigravity",
+   "claude",
+   "codex",
+   "cursor",
+   "gemini"
+  ]
+ },
+ "dash-pr-release-notes": {
+  "targets": [
+   "antigravity",
+   "codex",
+   "cursor",
+   "gemini"
+  ]
+ },
+ "dash-quick-merges": {
+  "targets": [
+   "codex",
+   "cursor"
+  ]
+ },
+ "file-issue": {
+  "targets": [
+   "antigravity",
+   "claude",
+   "codex",
+   "cursor",
+   "gemini"
+  ]
+ },
+ "file-pr": {
+  "targets": [
+   "antigravity",
+   "claude",
+   "codex",
+   "cursor",
+   "gemini"
+  ]
+ },
+ "flake-to-fix": {
+  "targets": [
+   "antigravity",
+   "claude",
+   "codex",
+   "cursor",
+   "gemini"
+  ]
+ },
+ "full-send": {
+  "targets": [
+   "claude",
+   "codex",
+   "cursor"
+  ]
+ },
+ "full-stop": {
+  "targets": [
+   "claude",
+   "codex",
+   "cursor"
+  ]
+ },
+ "leaving-pr-comments": {
+  "targets": [
+   "claude",
+   "codex",
+   "cursor"
+  ]
+ },
+ "model-choice": {
+  "targets": [
+   "antigravity",
+   "claude",
+   "codex",
+   "cursor",
+   "gemini"
+  ]
+ },
+ "modernize": {
+  "targets": [
+   "claude",
+   "codex",
+   "cursor"
+  ]
+ },
+ "platform-explorer-api": {
+  "targets": [
+   "antigravity",
+   "codex",
+   "cursor",
+   "gemini"
+  ]
+ },
+ "pr-review": {
+  "targets": [
+   "antigravity",
+   "codex",
+   "cursor",
+   "gemini"
+  ]
+ },
+ "rabbit-review-investigator": {
+  "targets": [
+   "antigravity",
+   "codex",
+   "cursor",
+   "gemini"
+  ]
+ },
+ "rank-dash-pr-readiness": {
+  "targets": [
+   "antigravity",
+   "codex",
+   "cursor",
+   "gemini"
+  ]
+ },
+ "rebase-branch": {
+  "targets": [
+   "claude",
+   "codex",
+   "cursor"
+  ]
+ },
+ "run-ios-simulator": {
+  "targets": [
+   "claude",
+   "codex",
+   "cursor"
+  ]
+ },
+ "security-report-investigator": {
+  "targets": [
+   "antigravity",
+   "codex",
+   "cursor",
+   "gemini"
+  ]
+ },
+ "sol-loop": {
+  "targets": [
+   "claude",
+   "codex",
+   "cursor"
+  ]
+ },
+ "takeover": {
+  "targets": [
+   "claude",
+   "codex",
+   "cursor"
+  ]
+ }
+}
