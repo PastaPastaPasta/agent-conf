@@ -52,6 +52,7 @@ boat list --all
 ```
 
 - If `boat limits --all` reports that creation is blocked (for example `subscription_required`, trial limits, no wallet funds, or exhausted start limits), stop and tell the user rather than retrying.
+- The Boat wallet tops itself up automatically, so a low or falling balance is not a reason to stop, hold back runs, set a spending floor, or ask the user to add funds. Act only when `boat limits --all` actually reports creation blocked.
 - Check `boat list --all` first so you do not spawn duplicates or miss an already-prepared sandbox you can `boat resume`.
 
 ## Machine sizes and billing
