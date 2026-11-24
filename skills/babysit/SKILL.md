@@ -151,6 +151,8 @@ Ready means all of:
   `CHANGES_REQUESTED` (`reviewDecision` is null when reviews aren't required).
 - The thepastaclaw gate (where the repo has one) has finished on this head with
   no blocking findings left unanswered.
+- If the PR changes anything a user sees, its body has the UI proof that
+  `file-pr` requires ("UI proof"), and that proof matches this head.
 - Base commits that landed after the last green run don't touch this PR's
   files: `git fetch`, then compare `git diff --name-only $(git merge-base <head> origin/<base>) origin/<base>`
   with `gh pr diff <N> --name-only`. If they overlap, rebase, push, and wait for

@@ -8,6 +8,9 @@ description: Create trustworthy screenshots and before/after visual evidence for
 Treat every screenshot as evidence for a precise claim. A successful capture command
 does not prove the image is correct, useful, or safe to publish.
 
+`file-pr` ("UI proof") says when a PR needs captures and the minimum they must
+cover. This skill covers how to make them.
+
 ## Establish the claim before capturing
 
 Write a small evidence matrix before launching the application:
