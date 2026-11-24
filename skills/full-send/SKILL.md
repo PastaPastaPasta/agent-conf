@@ -92,7 +92,8 @@ reproduction, a screenshot. Use the most direct kind the change allows:
 - Add one focused test that fails without the fix, when the behavior has no
   test and the repo has a test setup.
 - For UI and runtime behavior, run it and look. Green mocked tests do not prove
-  the user experience works. Attach screenshots when they help.
+  the user experience works. A PR that changes anything a user sees needs
+  the UI proof that `file-pr` requires.
 
 If you cannot find a way to prove a change, you do not have full confidence.
 Ask the user.

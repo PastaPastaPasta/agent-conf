@@ -8,6 +8,9 @@ description: Create trustworthy screenshots and before/after visual evidence for
 Treat every screenshot as evidence for a precise claim. A successful capture command
 does not prove the image is correct, useful, or safe to publish.
 
+`file-pr` ("UI proof") says when a PR needs captures and the minimum they must
+cover. This skill covers how to make them.
+
 ## Establish the claim before capturing
 
 Write a small evidence matrix before launching the application:
@@ -104,7 +107,7 @@ the mismatch in prose or publish it with a confident caption.
 
 ## Choose the evidence host
 
-For pasta's Dash pull requests, publish screenshots, recordings, and their provenance
+For pasta's pull requests, publish screenshots, recordings, and their provenance
 index to `PastaPastaPasta/dash-ui-artifacts`, with paths scoped to the source repository
 and PR (for example, `dashwallet-ios/pr-1115/`). Link the PR to immutable artifact
 commit URLs. Keep capture artifacts out of the product's commits.
