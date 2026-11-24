@@ -112,29 +112,29 @@ the repo and branch, give parallel subagents separate paths, and pass it with
 ## UI proof
 
 If a PR changes anything a user sees (web, desktop or mobile UI, CLI output,
-styles, or vendored UI assets), its body must show the change, so a reviewer
-can see it without checking out the branch.
+styles, or vendored UI assets), its body needs a `## UI proof` section that
+shows the change, so a reviewer can see it without checking out the branch.
 
-- Include before (exact base) and after (PR head) screenshots of each changed
-  screen or state, or a short recording for interactive flows. For CLI output,
-  before and after output in code blocks is enough.
+- Include before (exact base, where the screen existed) and after (PR head)
+  screenshots of each changed screen or state. For interactive flows, add a
+  short recording: a GIF plays inline, and a video shows up as a link. For CLI
+  output, before and after output in code blocks is enough.
 - Capture desktop and mobile widths when the UI is responsive, and light and
   dark when the app has both.
-- Capture headless (Playwright/Chromium, Xvfb, an emulator) with a fresh
-  profile and test data. Run the build and capture in a boat.dev sandbox
-  (`boat`) when the local box can't fit them. `capture-visual-evidence`
-  covers provenance, fixtures and checking each image.
-- Host the images where they render in the PR and stay put. For Dash work,
-  use `PastaPastaPasta/dash-ui-artifacts` at an immutable commit URL.
-  Otherwise use release assets or an artifacts branch on a pasta-owned repo.
-  Never use local paths or expiring links, and never commit captures to the
-  product branch.
+- Capture in a clean, isolated session with test data: a headless browser,
+  Xvfb or `agent-gui`, or an emulator or simulator through the device tools.
+  Run the build and capture in a boat.dev sandbox (`boat`) when the local box
+  can't fit them. `capture-visual-evidence` covers provenance, fixtures,
+  checking each image, and where to host it.
+- Link the images at immutable URLs that render in the PR. Never use local
+  paths or expiring links, and never commit captures to the product branch.
 - Look at every image before posting. Captures must not show secrets, tokens,
-  IPs, hostnames, emails, real names, or mainnet addresses and balances. If
-  one does, recapture with test data; don't blur it.
-- If a capture is impossible (the platform isn't available, it needs hardware
-  or credentials you don't have), say why under a **UI proof** heading in the
-  body and say what you verified instead. Never just leave the proof out.
+  emails, real names, mainnet addresses or balances, or the IPs and hostnames
+  of our machines and networks. If one does, recapture with test data; don't
+  blur it.
+- If a capture is impossible (the platform isn't available, or it needs
+  hardware or credentials you don't have), use the same section to say why and
+  what you verified instead. Never just leave the proof out.
 
 ## Filing
 
