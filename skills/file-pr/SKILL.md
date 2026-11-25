@@ -23,6 +23,7 @@ assume. Then:
 | --- | --- | --- | --- |
 | `dashpay/platform` | the remote whose URL is `github.com/dashpay/platform`, never a fork | `--repo dashpay/platform --head <branch>` | current `v*-dev` |
 | `dashpay/dash` | the `PastaPastaPasta/dash` fork, never dashpay/dash (pick by URL) unless pasta explicitly says so for this case | `--repo dashpay/dash --head PastaPastaPasta:<branch>` | `develop` |
+| `dashpay/dash-wallet` | the remote whose URL is `github.com/dashpay/dash-wallet`, never the PastaPastaPasta fork (fork PRs fail CI) | `--repo dashpay/dash-wallet --head <branch>` | the working branch the change targets |
 | other `dashpay/*` | either the dashpay remote or your fork remote; both are fine | `--repo dashpay/<repo> --head <branch>` (same repo) or `--head <fork-owner>:<branch>` (fork) | upstream default |
 | yappr | `origin` | `--base staging` | `staging`, never `master` |
 | anything else | `origin` | defaults | the repo's working branch |
