@@ -149,6 +149,13 @@ def push_mem(repo, msg, edit):
 A = machine("A", "mac")
 (A / ".config/opencode").mkdir(parents=True)
 (A / ".config/opencode/opencode.json").write_text('{"model": "x/y", "plugin": ["./plugins/hand.ts"]}\n')
+(A / ".claude").mkdir(parents=True, exist_ok=True)
+(A / ".claude/settings.json").write_text('{"env": {"FOO": "1", "GIT_CONFIG_KEY_7": "stale"}, "model": "m"}\n')
+(A / ".t3/userdata").mkdir(parents=True)
+(A / ".t3/userdata/settings.json").write_text(json.dumps({"providerInstances": {
+    "x": {"environment": [{"name": "KEEP", "value": "1", "sensitive": True},
+                          {"name": "GIT_CONFIG_COUNT", "value": "9", "sensitive": False}]},
+    "y": {"enabled": True}}}) + "\n")
 (A / ".cursor").mkdir()
 (A / ".gemini/config").mkdir(parents=True)
 (A / ".claude/skills/alpha").mkdir(parents=True)
@@ -185,6 +192,16 @@ check((A / ".config/opencode/agents/o-reviewer.md").resolve() == live_a / "openc
       "opencode agents and commands link into the live copy")
 check((A / ".config/opencode/plugins/o-memory.ts").resolve() == live_a / "opencode/plugins/o-memory.ts",
       "opencode plugins link into the live copy")
+want_env = {"GIT_CONFIG_COUNT": "1", "GIT_CONFIG_KEY_0": "user.name", "GIT_CONFIG_VALUE_0": "mac-signer"}
+check(json.loads((A / ".local/share/agent-config/git-env.json").read_text()) == want_env,
+      "host git_config rendered to git-env.json for the OpenCode guard")
+cl = json.loads((A / ".claude/settings.json").read_text())
+check(cl["env"] == {"FOO": "1", **want_env} and cl["model"] == "m",
+      "Claude settings env carries the host git env, stale GIT_CONFIG_* dropped, other settings kept", cl)
+t3s = json.loads((A / ".t3/userdata/settings.json").read_text())["providerInstances"]
+check([e["name"] for e in t3s["x"]["environment"]] == ["KEEP", *want_env]
+      and {e["name"]: e["value"] for e in t3s["y"]["environment"]} == want_env and t3s["y"]["enabled"] is True,
+      "every T3 provider instance gets the host git env and keeps its own variables", t3s)
 oc_cfg = json.loads((A / ".config/opencode/opencode.json").read_text())
 check(oc_cfg.get("model") == "x/y" and oc_cfg.get("plugin") == ["./plugins/hand.ts", "./plugins/o-memory.ts"],
       "opencode.json lists synced plugins and keeps hand-managed settings", oc_cfg)
@@ -201,8 +218,8 @@ check("x.md" not in mem_tree and ".tmp" not in mem_tree, "machine-local memory a
 check(sh("git", "-C", str(A / ".local/share/agent-config/memory"), "config", "user.name").stdout.strip() == "mac-signer",
       "host git_config applied to the memory repo clone")
 rc, out = ac(A, "sync")
-check(rc == 0 and "linked" not in out and "rendered" not in out and "listed plugins" not in out,
-      "second sync is a no-op", out)
+check(rc == 0 and "linked" not in out and "rendered" not in out and "listed plugins" not in out
+      and "agent git env" not in out, "second sync is a no-op", out)
 stale = [live_a / ".git/index.lock", live_a / ".git/HEAD.lock", A / ".local/share/agent-config/memory/.git/index.lock"]
 for lock in stale:
     lock.write_text("")
@@ -226,6 +243,7 @@ future = time.time() + 600
 os.utime(mem(B) / "note-a.md", (future, future))
 (B / ".claude/CLAUDE.md").symlink_to(B / ".codex/AGENTS.md")
 rc, out = ac(B, "sync")
+check(not (B / ".local/share/agent-config/git-env.json").exists(), "no git env without host git_config")
 check(rc == 1 and "changed on two machines" in out, "first sync on B reports its conflict as a problem", out)
 check((mem(B) / "note-a.md").read_text() == "B's newer edit of note A\n" and
       origin_file("memory/workspace-dash/note-a.md") == "B's newer edit of note A\n", "newer side of a conflict wins")

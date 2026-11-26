@@ -662,6 +662,75 @@ class Applier:
             rendered[dest_rel] = new
             log(f"rendered {dest}")
 
+    def rewrite_json(self, path, data, what):
+        """Replace a hand-managed JSON file: back it up, keep its mode, write through a symlink."""
+        text = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
+        if path.exists():
+            backup(path, copy=True)
+            target, mode = path.resolve(), path.stat().st_mode & 0o777
+            write_atomic(target, text)
+            os.chmod(target, mode)
+        else:
+            write_atomic(path, text)
+        log(f"{what} in {path}")
+
+    def read_json(self, path, default=None):
+        try:
+            return json.loads(path.read_text()) if path.exists() else default
+        except ValueError as e:
+            self.problems.append(f"{path} is not plain JSON ({e}); left it alone")
+            return None
+
+    def git_env(self):
+        """Where ~/.gitconfig is a person's (the laptop's), agents get their git settings, chiefly the agent
+        signing key, as GIT_CONFIG_* env from hosts.json git_config. Keep each harness's copy in step."""
+        cfg = self.conf.get("git_config") or {}
+        env_file = DATA / "git-env.json"
+        if not cfg:
+            env_file.unlink(missing_ok=True)
+            return
+        env = {"GIT_CONFIG_COUNT": str(len(cfg))}
+        for i, (k, v) in enumerate(cfg.items()):
+            env[f"GIT_CONFIG_KEY_{i}"], env[f"GIT_CONFIG_VALUE_{i}"] = k, os.path.expanduser(str(v))
+        ours = re.compile(r"GIT_CONFIG_(COUNT|KEY_\d+|VALUE_\d+)")
+        if load_json(env_file) != env:
+            write_atomic(env_file, json.dumps(env, indent=1) + "\n")
+
+        claude = HOME / ".claude/settings.json"
+        if (HOME / ".claude").is_dir():
+            d = self.read_json(claude, {})
+            if d is not None:
+                cur = d.get("env") or {}
+                want = {**{k: v for k, v in cur.items() if not ours.fullmatch(k)}, **env}
+                if want != cur:
+                    d["env"] = want
+                    self.rewrite_json(claude, d, "set the agent git env")
+
+        t3 = HOME / ".t3/userdata/settings.json"
+        d = self.read_json(t3)
+        if d is not None:
+            changed = False
+            for inst in (d.get("providerInstances") or {}).values():
+                cur = inst.get("environment") or []
+                want = ([v for v in cur if not ours.fullmatch(str(v.get("name", "")))]
+                        + [{"name": k, "value": v, "sensitive": False} for k, v in env.items()])
+                if want != cur:
+                    inst["environment"], changed = want, True
+            if changed:
+                self.rewrite_json(t3, d, "set the agent git env on every provider instance")
+
+        codex = HOME / ".codex/config.toml"
+        if codex.exists():
+            try:
+                import tomllib
+                got = tomllib.loads(codex.read_text()).get("shell_environment_policy", {}).get("set", {})
+            except (ImportError, ValueError):
+                return
+            wrong = sorted(k for k in set(env) | {k for k in got if ours.fullmatch(k)} if got.get(k) != env.get(k))
+            if wrong:
+                self.problems.append(f"{codex}: [shell_environment_policy.set] {wrong} differ from hosts.json "
+                                     f"git_config; set them by hand (sync does not edit TOML)")
+
     def opencode_plugins(self):
         """OpenCode loads only the plugins its opencode.json lists. Keep ours listed (and drop ones we added that
         are gone) without touching anything else in that hand-managed file."""
@@ -690,21 +759,14 @@ class Applier:
         if want == listed:
             return
         cfg["plugin"] = want
-        data = json.dumps(cfg, indent=2, ensure_ascii=False) + "\n"
-        if path.exists():
-            backup(path, copy=True)
-            target, mode = path.resolve(), path.stat().st_mode & 0o777
-            write_atomic(target, data)
-            os.chmod(target, mode)
-        else:
-            write_atomic(path, data)
-        log(f"listed plugins {want} in {path}")
+        self.rewrite_json(path, cfg, f"listed plugins {want}")
 
     def run(self):
         self.skills()
         self.support_files()
         self.link_all()
         self.opencode_plugins()
+        self.git_env()
         self.instructions()
 
 
