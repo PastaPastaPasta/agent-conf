@@ -125,7 +125,7 @@ shows the change, so a reviewer can see it without checking out the branch.
   dark when the app has both.
 - Capture in a clean, isolated session with test data: a headless browser,
   Xvfb or `agent-gui`, or an emulator or simulator through the device tools.
-  Run the build and capture in a boat.dev sandbox (`boat`) when the local box
+  Run the build and capture in a cloud sandbox (`cloud-compute`) when the local box
   can't fit them. `capture-visual-evidence` covers provenance, fixtures,
   checking each image, and where to host it.
 - Link the images at immutable URLs that render in the PR. Never use local

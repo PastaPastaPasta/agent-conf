@@ -35,7 +35,7 @@ alwaysApply: true
 
 ## Compute Overflow
 
-- Always prefer local compute first. When local machines are saturated or RAM-constrained and a task needs heavy or burst Linux compute (fuzzing, sanitizer/soak sweeps, large parallel builds/tests, or isolated Linux VMs), use the `boat` skill (`boat.dev`) to spin up short-lived cloud sandboxes and delete them promptly when done.
+- Be mindful and respectful of local resource limits. Before starting CPU-, memory-, or disk-heavy tasks (large builds, full test suites, fuzzers, Docker/Playwright, benchmarks), check whether this host has headroom via metrics (load vs. `nproc`, disk I/O wait, free RAM / cgroup limit, free disk). If the host is bottlenecked — or you need reproducible benchmarks or an isolated Linux VM — use the `cloud-compute` skill (Boat.dev sandboxes and DigitalOcean droplets) and tear resources down promptly when done.
 
 ## Quality Gates
 

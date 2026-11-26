@@ -10,8 +10,8 @@
   "path": "workspace/dash-backport-review-skill"
  },
  "base-sdk": {},
- "boat": {},
  "capture-visual-evidence": {},
+ "cloud-compute": {},
  "code-review-validator": {},
  "code-simplifier": {},
  "council": {},
