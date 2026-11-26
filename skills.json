@@ -1,4 +1,5 @@
 {
+ "agent-conf": {},
  "agentic-qa": {
   "git": "https://github.com/PastaPastaPasta/agentic-qa.git",
   "path": "workspace/agentic-qa"

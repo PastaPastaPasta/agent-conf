@@ -1,6 +1,6 @@
 ---
 name: babysit
-description: Monitor one or more GitHub PRs until they merge — wait via watch_pull_request, triage bot and reviewer feedback, fix or rerun CI failures, keep branches current, and check the merge gate. Use when asked to watch, monitor, babysit, or shepherd a PR, keep an eye on CI, or handle PR review comments.
+description: Monitor one or more GitHub PRs until they merge — wait via watch_pull_request, triage bot and reviewer feedback, fix or rerun CI failures, keep branches current, and check the merge gate. Use immediately after creating or opening a PR (returning the URL is not completion, unless the user opts out), or whenever asked to watch, monitor, babysit, or shepherd a PR, keep an eye on CI, or handle PR review comments.
 ---
 
 # PR Babysitting

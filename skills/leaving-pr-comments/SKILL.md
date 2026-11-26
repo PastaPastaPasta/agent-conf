@@ -1,28 +1,32 @@
 ---
 name: leaving-pr-comments
-description: Format and attribute autonomous GitHub comments, reviews, and replies cleanly. Use whenever posting a GitHub PR comment, inline review comment, issue comment, review, or reply to a bot or reviewer.
+description: Required AI attribution footer, /self-reviewed rule, and formatting for every GitHub comment posted on pasta's behalf. Use whenever posting or editing any GitHub PR comment, inline review comment, review, issue comment, or discussion reply (via gh, gh api, or any MCP tool).
 ---
 
 # Leaving PR Comments
 
 ## Attribution
 
-Every comment posted as **PastaPastaPasta** ends with the footer from your global
-instructions (CLAUDE.md, AGENTS.md, GEMINI.md, or the Cursor global workflow rule),
-exactly once:
+Every GitHub comment posted on pasta's behalf (issue/PR comments, reviews, inline
+review comments, discussion replies, via `gh`, `gh api`, or any MCP tool) must
+end with this footer, exactly once (when editing a comment that already has it,
+keep one copy):
 
 ```md
 Actual comment.
 
 ---
-🤖 Posted autonomously by Claude (<model-slug>) on behalf of pasta.
+🤖 Posted autonomously by <Harness> (<model-slug>) on behalf of pasta.
 ```
 
-`<model-slug>` is the exact ID of the model you are running as, such as
-`claude-fable-5-2`. Other harnesses use the same footer with their own name in
-place of `Claude` (`Codex`, `Cursor`, `Gemini`, or `OpenCode`, per their global
-instructions). Do not reword it otherwise; `pr_wait.py` recognizes our own
-replies by the `Posted autonomously by <Harness>` prefix.
+- `<Harness>` is your harness name: `Claude`, `Codex`, `Cursor`, `Gemini`, or
+  `OpenCode`.
+- `<model-slug>` is the exact ID of the model you are running as (for example
+  `claude-opus-5-5`, `gpt-6.2-astra`, `grok-4.7`, `gemini-4-neon`, or
+  `inkling-2-mini`).
+- Do not reword the prefix: `pr_wait.py` recognizes our own replies by
+  `Posted autonomously by <Harness>`.
+- Never add this footer to PR/issue descriptions, commit messages, or code.
 
 Comments posted through the **thepastaclaw** account get no footer: the bot
 account already says it is automated. Text the user asked to post verbatim
