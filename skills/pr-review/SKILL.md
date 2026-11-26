@@ -1,6 +1,6 @@
 ---
 name: pr-review
-description: Run a thorough, CodeRabbit-style PR review for one pull request by number, including file-level risk analysis, line-level findings, CI/check health, and review-thread context. Use on commands like `/pr-review 123`.
+description: Run a thorough code review of a pull request covering file-level risk, line-level findings, CI status, and review threads. Use when asked to review a PR by number or URL, or on /pr-review <num>; for Dash Core final merge-gate decisions, use dash-pr-final-review.
 ---
 
 # PR Review
@@ -19,13 +19,11 @@ This skill produces a thorough PR packet with:
 
 ## Invocation
 
-Primary pattern:
+Primary pattern (run `scripts/review_pr.py`, next to this file):
 
 ```bash
-python3 ~/.codex/skills/pr-review/scripts/review_pr.py <PR_NUMBER>
+python3 scripts/review_pr.py <PR_NUMBER>
 ```
-
-(Cursor: `~/.cursor/skills/...`.)
 
 Optional flags:
 

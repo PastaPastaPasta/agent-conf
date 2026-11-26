@@ -1,6 +1,6 @@
 ---
 name: dash-faucet
-description: Use faucet.thepasta.org or faucet.dashhq.org to send testnet DASH (tDASH) to a Dash testnet address, e.g. to fund a wallet or the asset lock behind a Platform identity. Use for tDASH requests or faucet status checks; follow its rate limits and protect private keys.
+description: Request testnet DASH (tDASH) from faucet.thepasta.org or faucet.dashhq.org to fund a testnet wallet or Platform identity asset lock. Use when you need tDASH or want to check faucet status.
 ---
 
 # Dash Testnet Faucet

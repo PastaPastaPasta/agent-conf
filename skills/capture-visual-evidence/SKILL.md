@@ -1,6 +1,6 @@
 ---
 name: capture-visual-evidence
-description: Create trustworthy screenshots and before/after visual evidence for pull requests, UI changes, bug reports, reviews, release notes, and published documentation. Use whenever Claude or Codex must capture, compare, select, annotate, upload, link, or make claims from screenshots, recordings, rendered pages, dialogs, menus, tooltips, or other visible application states—especially when “before” and “after” must represent exact source revisions.
+description: Create trustworthy screenshots and before/after visual evidence for PRs, UI changes, bug reports, reviews, release notes, or docs. Use when capturing, comparing, annotating, uploading, or making claims from screenshots, recordings, rendered pages, dialogs, or other visible UI states — especially when before/after must match exact source revisions.
 ---
 
 # Capture Visual Evidence

@@ -1,6 +1,6 @@
 ---
 name: rank-dash-pr-readiness
-description: Build a semantic, evidence-backed HTML report ranking every open dashpay/dash (Dash Core) pull request from closest to merge to furthest away. Use when Codex needs to assess the Dash Core review queue, identify ready-to-merge PRs, recommend what maintainers should review next, or refresh a merge-readiness dashboard using approvals, review conversations, CI, conflicts, rebases, change risk, and recent activity without reducing the result to a deterministic score.
+description: Build an evidence-backed HTML report ranking every open dashpay/dash (Dash Core) PR by merge readiness. Use when assessing the Dash Core review queue, finding ready-to-merge PRs, recommending what maintainers should review next, or refreshing the merge-readiness dashboard.
 ---
 
 # Rank Dash PR Readiness

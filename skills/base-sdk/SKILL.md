@@ -1,6 +1,6 @@
 ---
 name: base-sdk
-description: How to work on dashpay/base-sdk the way its maintainer (kwvg) would accept, distilled from his reviews of our 38 PRs. Covers what belongs in the SDK and what must stay in rust-dashcore, how a PR has to be built, how to review one to his standard, and the steward procedure for merging while he is away. Use before writing, filing, reworking, reviewing or merging anything in dashpay/base-sdk or the PastaPastaPasta/base-sdk fork (`node/base-sdk`, `node-sdk-integration`), when deciding whether code belongs in base-sdk or rust-dashcore, and when planning what to upstream from the fork.
+description: Conventions, scope boundaries (base-sdk vs rust-dashcore), PR standards, and steward merge rules for dashpay/base-sdk. Use when writing, filing, reworking, reviewing, or merging changes in dashpay/base-sdk or PastaPastaPasta/base-sdk, or deciding whether code belongs in base-sdk or rust-dashcore.
 ---
 
 # base-sdk

@@ -1,6 +1,6 @@
 ---
 name: code-simplifier
-description: Identify safe simplification opportunities in newly added or recently changed code while preserving behavior. Use when a task introduces substantial new code, duplication, extra indirection, or over-engineered patterns and Codex should reduce complexity before finalizing.
+description: Identify safe simplification opportunities in new or recently changed code while preserving behavior. Use when a task adds substantial new code, duplication, extra indirection, or over-engineered patterns that should be simplified before finalizing.
 ---
 
 # Code Simplifier

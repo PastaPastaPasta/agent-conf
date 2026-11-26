@@ -1,6 +1,6 @@
 ---
 name: dash-core-development
-description: Dash Core build, test, architecture, and development workflow guidance for the C++ reference implementation. Use when working in dashpay/dash repositories, modifying src/, running unit or functional tests, configuring depends builds, or debugging dashd/dash-qt.
+description: Dash Core C++ build, test, architecture, and development workflow guidance. Use when working in dashpay/dash, modifying src/, configuring depends builds, running unit or functional tests, or debugging dashd/dash-qt.
 ---
 
 # Dash Core Development Guide

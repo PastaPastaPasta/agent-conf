@@ -1,6 +1,6 @@
 ---
 name: file-pr
-description: File a concise pull request that leads with the problem, routed to the right repo, remote and base branch (dashpay forks, dashpay/platform same-repo, yappr staging). Use when the user asks to file, open, make or create a PR, or "commit and push and open a PR".
+description: File a concise PR that leads with the problem, routed to the right repo, remote, and base branch (dashpay forks, dashpay/platform same-repo, yappr staging). Use when asked to file, open, create, or push a PR.
 ---
 
 # File PR

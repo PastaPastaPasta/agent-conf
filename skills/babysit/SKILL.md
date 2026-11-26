@@ -1,6 +1,6 @@
 ---
 name: babysit
-description: Babysit one or more GitHub PRs until they merge — wait with T3 Code's watch_pull_request, triage review-bot feedback (thepastaclaw, Codex, CodeRabbit, etc.) skeptically and fix only what's valid, fix or rerun CI failures, keep the branch current, and check the merge gate yourself. Use whenever the user asks to watch, monitor, babysit, or shepherd a PR, keep an eye on CI, or handle review comments, even without saying "babysit".
+description: Monitor one or more GitHub PRs until they merge — wait via watch_pull_request, triage bot and reviewer feedback, fix or rerun CI failures, keep branches current, and check the merge gate. Use when asked to watch, monitor, babysit, or shepherd a PR, keep an eye on CI, or handle PR review comments.
 ---
 
 # PR Babysitting

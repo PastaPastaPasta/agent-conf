@@ -1,6 +1,6 @@
 ---
 name: platform-explorer-api
-description: Work with the Dash Platform Explorer REST API documented at platform-explorer.com and exposed on the live host platform-explorer.pshenmic.dev. Use when Codex needs to discover the explorer API, choose endpoints for network status, validators, blocks, transactions, identities, DPNS aliases, or data contracts, verify whether a route is live, and produce curl, JavaScript, or integration examples against the explorer.
+description: Query live Dash Platform state via the Platform Explorer REST API (identities, DPNS names, data contracts, documents, deployed apps/sites, validators, blocks, transactions, and network status). Use when looking up Dash Platform records or registrations, checking explorer routes, or writing Platform Explorer API requests.
 ---
 
 # Platform Explorer API

@@ -1,6 +1,6 @@
 ---
 name: leaving-pr-comments
-description: Use whenever leaving comments on GitHub (PR comments, inline review comments, replies to bots or reviewers, reviews, issue comments) so they carry the right attribution and read well.
+description: Format and attribute autonomous GitHub comments, reviews, and replies cleanly. Use whenever posting a GitHub PR comment, inline review comment, issue comment, review, or reply to a bot or reviewer.
 ---
 
 # Leaving PR Comments

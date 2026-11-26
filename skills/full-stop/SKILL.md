@@ -1,6 +1,6 @@
 ---
 name: full-stop
-description: Trigger this if the user says 'full stop', even as a closing "Full stop." that reads like emphasis. Same as full-send, but stops with the PR ready for the user to merge.
+description: Take a change end-to-end until the PR is reviewed, green, and ready for the user to merge (does not merge). Use when the user says 'full stop', even as a closing 'Full stop.'
 ---
 
 # Full Stop

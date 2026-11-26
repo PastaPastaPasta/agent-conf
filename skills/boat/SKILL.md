@@ -1,6 +1,6 @@
 ---
 name: boat
-description: Spin up short-lived Ubuntu cloud sandboxes on boat.dev via the `boat` CLI when local compute is insufficient or under heavy load. Always prefer local machines first; overflow to boat.dev for heavy or burst compute such as fuzzing, sanitizer sweeps, large parallel builds, or isolated Linux environments.
+description: Spin up short-lived Ubuntu cloud sandboxes on boat.dev via the boat CLI. Use when local machines are saturated or RAM-constrained and you need burst Linux compute (fuzzing, sanitizer sweeps, large parallel builds, or isolated Linux environments); always prefer local machines first.
 ---
 
 # Boat.dev Cloud Sandboxes

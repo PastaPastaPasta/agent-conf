@@ -1,6 +1,6 @@
 ---
 name: model-choice
-description: Pick the model and effort for any subagent, delegation, review, council or text-generation call. Use every time you spawn a subagent (Claude Agent tool, T3 delegate_task), start a reviewer, or hand work to another model.
+description: Pick the right model and effort level for delegated work. Use whenever spawning a subagent, calling delegate_task, starting a reviewer or council, or handing work to another model.
 ---
 
 # Model Choice

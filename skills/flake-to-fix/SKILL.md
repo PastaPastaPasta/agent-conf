@@ -1,6 +1,6 @@
 ---
 name: flake-to-fix
-description: Use when you observe a flaky test or intermittent CI failure in dashpay/dash, even one unrelated to your change and even mid-task (babysitting a PR, running tests). Don't ignore, rerun or merely note it; hand it to an Opus 5.5 high-effort agent that takes it to a root-cause fix (dedupe check, failure history, introducing commit, local repro under stress/sanitizers, fix, validation and review, milestoned PR from the PastaPastaPasta/dash fork).
+description: Hand off flaky tests or intermittent CI failures in dashpay/dash to a dedicated root-cause-fix agent rather than ignoring or rerunning them. Use whenever you observe a flaky test or intermittent CI failure in dashpay/dash, even if unrelated to your current task.
 ---
 
 # Flake to fix

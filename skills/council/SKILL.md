@@ -1,6 +1,6 @@
 ---
 name: council
-description: Trigger this if the user says 'council'. Also use for critical design (consensus, security or protocol design). Opus 5.5, GPT 6.2 Astra and Muse Wonder full (all high), with Fable 5.2 high taking a short seat, work independently, then all three must agree.
+description: Run a multi-model design council where independent frontier models review a proposal and must reach consensus. Use when the user says 'council' or for critical consensus, security, or protocol design decisions.
 ---
 
 # Council

@@ -1,6 +1,6 @@
 ---
 name: sol-loop
-description: Use when the user says "sol loop". Reviews a change with GPT 6.2 Astra (a different provider from the author) in a budgeted loop until both agree. Opt-in only; the default review gate is still code-review-validator.
+description: Run a budgeted cross-provider review loop with GPT 6.2 Astra until author and reviewer agree. Use only when the user explicitly says 'sol loop' (otherwise use code-review-validator).
 ---
 
 # sol-loop

@@ -1,6 +1,6 @@
 ---
 name: dash-pr-release-notes
-description: Add or update release notes for Dash Core pull requests that use committed PR-specific note files like `/doc/release-notes-7052.md`. Use when a Dash PR needs proper release notes, when notes were mistakenly put in the GitHub PR body, or when Codex must convert a code change into the repo's snippet format.
+description: Add or update Dash Core PR release notes in committed per-PR files (doc/release-notes-<PR>.md). Use when a Dash Core PR needs release notes, when notes were mistakenly put in the PR body, or when converting a code change into a Dash release-note snippet.
 ---
 
 # Dash PR Release Notes

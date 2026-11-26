@@ -1,6 +1,6 @@
 ---
 name: file-issue
-description: File or edit a GitHub issue body safely. Use whenever you file, open, create or update an issue, whether the user asked or you are opening a follow-up yourself.
+description: File or edit a GitHub issue safely with a clear, well-structured body. Use whenever opening, creating, or updating a GitHub issue, whether user-requested or a follow-up you file yourself.
 ---
 
 # File Issue

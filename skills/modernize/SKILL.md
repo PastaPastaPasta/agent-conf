@@ -1,8 +1,6 @@
 ---
 name: modernize
-description: >-
-  For getting old prs up to date. Use when asked to rebase a pr or
-  "modernize".
+description: Evaluate whether an older or stale PR still makes sense (MODERNIZE, REWORK, or CLOSE) before rebasing it. Use when asked to modernize, revive, or evaluate an old/stale PR; for straightforward rebases, use rebase-branch.
 ---
 
 # Modernize

@@ -1,6 +1,6 @@
 ---
 name: dash-quick-merges
-description: Find, rank, and triage recently opened Dash Core (dashpay/dash) pull requests to identify small, high-confidence, merge-ready changes that can be safely reviewed and merged quickly. Use when asked to review recent PRs, find quick merges or low-hanging fruit, locate small bugfixes or test improvements in Dash Core, or rank recently opened PRs by size and merge proximity with clickable GitHub PR links.
+description: Find and rank recently opened dashpay/dash PRs to surface small, high-confidence, merge-ready changes. Use when asked to find quick merges, low-hanging fruit, or small bugfix/test PRs in Dash Core.
 ---
 
 # Dash Quick Merges
@@ -19,18 +19,16 @@ Triage and rank recently opened Dash Core pull requests to surface small, low-ri
 
 ### 1. Run the Triage Script
 
-Use the bundled triage script to fetch open PRs created within the target window (default 30 days):
+Use the bundled triage script (`scripts/triage_recent_prs.py`, next to this file) to fetch open PRs created within the target window (default 30 days):
 
 ```bash
-python3 ~/.codex/skills/dash-quick-merges/scripts/triage_recent_prs.py --days 30
+python3 scripts/triage_recent_prs.py --days 30
 ```
-
-(Cursor: `~/.cursor/skills/...`.)
 
 To fetch raw structured data for custom filtering or deeper inspection:
 
 ```bash
-python3 ~/.codex/skills/dash-quick-merges/scripts/triage_recent_prs.py --days 30 --json
+python3 scripts/triage_recent_prs.py --days 30 --json
 ```
 
 ### 2. Inspect Top Candidates

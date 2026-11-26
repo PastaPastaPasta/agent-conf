@@ -1,6 +1,6 @@
 ---
 name: rabbit-review-investigator
-description: Investigate and validate code review feedback (from human reviewers or automated tools like CodeRabbit) before making code changes.
+description: Independently verify PR review comments from humans or bots (CodeRabbit, thepastaclaw, Codex) against the codebase before editing code. Use when asked to triage, investigate, or respond to review feedback.
 ---
 
 # Code Review Investigator

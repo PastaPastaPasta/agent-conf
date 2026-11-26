@@ -1,6 +1,6 @@
 ---
 name: dash-core-security-auditor
-description: Audit Dash Core security-critical code with emphasis on consensus safety, LLMQ and BLS logic, ChainLocks, InstantSend, special transactions, deterministic masternode state, sporks, governance, CoinJoin, and reorg or persistence edge cases. Use when reviewing changes in src/validation.cpp, src/consensus, src/llmq, src/bls, src/chainlock, src/instantsend, src/evo, src/masternode, src/governance, src/coinjoin, or related tests, especially for consensus split risk, invalid state acceptance, replay paths, malformed input handling, denial of service, and state-corruption bugs.
+description: Audit Dash Core security-critical code for consensus splits, invalid state acceptance, replay paths, DoS, and state corruption. Use when reviewing or auditing src/validation.cpp, src/consensus, src/llmq, src/bls, src/chainlock, src/instantsend, src/evo, src/masternode, src/governance, src/coinjoin, or related tests.
 ---
 
 # Dash Core Security Auditor

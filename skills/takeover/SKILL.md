@@ -1,6 +1,6 @@
 ---
 name: takeover
-description: Take over existing work. Use when the user asks to take over a PR, branch, or agent thread, or requests a takeover.
+description: Take over an existing PR, branch, or agent thread cleanly without losing context or work. Use when asked to take over a PR, branch, or thread, or when continuing another agent's unfinished work.
 ---
 
 # Takeover

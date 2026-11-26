@@ -1,6 +1,6 @@
 ---
 name: rebase-branch
-description: Rebase a branch or PR onto a newer base (develop, main, staging, another PR) — resolve conflicts from the actual blobs, prove nothing was lost with range-diff, and force-push to the ref the PR really reads. Use whenever asked to rebase, restack, update, or "bring a PR up to date with" a base branch, including "rebase this PR and force push". Also applies to squashing or amending published commits, since the force-push traps are the same.
+description: Rebase a branch or PR onto a newer base, resolve conflicts from git blobs, verify with range-diff, and force-push safely. Use when asked to rebase, restack, squash/amend published commits, or update a PR branch onto its base.
 ---
 
 # Rebasing a branch

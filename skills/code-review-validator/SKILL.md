@@ -1,6 +1,6 @@
 ---
 name: code-review-validator
-description: Run an unbiased code review on completed implementations before final handoff. Use when non-trivial code changes are done and Codex should verify correctness, regressions, architecture fit, and security or reliability risks.
+description: Run an unbiased code review on completed changes before handoff to verify correctness, regressions, architecture fit, and security or reliability risks. Use when non-trivial code changes are finished and need a pre-handoff review.
 ---
 
 # Code Review Validator

@@ -1,6 +1,6 @@
 ---
 name: dash-functional-tests
-description: Run Dash Core Python functional tests (test/functional/test_runner.py or a single test/functional/*.py) with their datadirs on a RAM disk. Use every time you run Dash functional tests locally, whether one test, a handful, or the full suite, and whenever local functional tests time out or flake under parallel load.
+description: Run Dash Core Python functional tests (test_runner.py or individual test/functional/*.py) with datadirs on a RAM disk. Use whenever running Dash functional tests locally or troubleshooting local functional-test timeouts and parallel flakes.
 ---
 
 # Dash Core functional tests on a RAM disk

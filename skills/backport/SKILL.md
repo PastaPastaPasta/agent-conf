@@ -1,6 +1,6 @@
 ---
 name: backport
-description: Backport specific Bitcoin Core PRs into Dash Core from a local checkout, for a developer who wants a particular area or set of backports done sooner than the automated backport pipeline would get to them. Covers checking what's already done, using the pipeline's prerequisite map, pulling in the prerequisites and follow-ups the set needs, preferring upstream fixes over Dash patches, commit conventions, a local build-and-diff check, and filing. Use when asked to backport, port or "bring over" upstream PRs, or to finish a partial backport.
+description: Backport specific Bitcoin Core PRs into Dash Core from a local checkout, including prerequisites, upstream follow-ups, build/diff checks, and filing. Use when asked to backport, port, or bring over upstream Bitcoin PRs, or finish a partial backport.
 ---
 
 # Backport

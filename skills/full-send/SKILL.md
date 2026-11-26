@@ -1,6 +1,6 @@
 ---
 name: full-send
-description: Trigger this if the user says 'full send'. Takes a change all the way to a merged PR with nobody watching — prove it, review it, file it, babysit it, merge it.
+description: Take a change end-to-end to a merged PR unattended (prove, review, file, babysit, and merge). Use when the user says 'full send'.
 ---
 
 # Full Send

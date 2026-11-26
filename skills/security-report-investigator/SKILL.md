@@ -1,6 +1,6 @@
 ---
 name: security-report-investigator
-description: Validate security reports, audit findings, bug bounty submissions, or vulnerability claims before making code changes. Use when Codex needs to independently investigate a reported security issue from scratch, confirm or refute the finding, reassess the reported severity, and produce a regression test or equivalent automated proof for any confirmed issue.
+description: Independently validate security reports, audit findings, bug bounty submissions, or vulnerability claims before changing code. Use when asked to investigate a reported vulnerability, confirm or refute a security claim, reassess severity, or write a regression test/proof.
 ---
 
 # Security Report Investigator

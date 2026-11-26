@@ -1,6 +1,6 @@
 ---
 name: run-ios-simulator
-description: Build, install, launch, and verify iOS applications in Apple Simulator from exact Git revisions or worktrees. Use for requests to run an iOS app, prepare a simulator, compare before/after revisions, preserve a simulator fixture or wallet, diagnose an app that exits on launch, or produce trustworthy simulator evidence. Handles Xcode workspaces/projects, required private runtime resources, simulator-safe code signing and entitlements, isolated DerivedData, installation, launch-liveness checks, crash collection, and source-tree cleanliness.
+description: Build, install, launch, and verify iOS apps in Apple Simulator from exact Git revisions or worktrees. Use when running an iOS app, preparing a simulator, comparing before/after revisions, preserving a simulator wallet/fixture, debugging a launch crash, or capturing simulator evidence.
 ---
 
 # Run an iOS app in Simulator
@@ -52,7 +52,7 @@ Use `scripts/build-launch.sh` for the deterministic build/install/launch path. R
 DashWallet requires local service plists and CloudKit entitlements at launch. Copy the six `*-Info.plist` resources from a known-working `dashpay.app` into `DashWallet/` through the script, and allow Xcode's normal simulator signing:
 
 ```bash
-~/.codex/skills/run-ios-simulator/scripts/build-launch.sh \
+scripts/build-launch.sh \
   --workspace DashWallet.xcworkspace \
   --scheme dashpay \
   --device <simulator-udid> \
