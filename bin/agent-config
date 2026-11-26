@@ -60,6 +60,7 @@ SECRET = re.compile(r"gh[opsu]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{40,}|(?<
                     r"|xox[abprs]-[A-Za-z0-9-]{20,}|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY-----")
 GIT_ENV = {"GIT_TERMINAL_PROMPT": "0", "GIT_HTTP_LOW_SPEED_LIMIT": "1000", "GIT_HTTP_LOW_SPEED_TIME": "60",
            "GIT_SSH_COMMAND": "ssh -o BatchMode=yes -o ConnectTimeout=20 -o ServerAliveInterval=15 -o ServerAliveCountMax=4"}
+STALE_LOCK_AGE = 600
 MASS_DELETE = 0.5  # a machine deleting more than half of a memory folder's notes in one go is not propagated
 
 
@@ -607,7 +608,7 @@ class Applier:
             if overlay_active():
                 bases += [OVERLAY / "opencode", OVERLAY / "hosts" / self.host / "opencode"]
             for base in bases:
-                for kind in ("agents", "commands"):
+                for kind in ("agents", "commands", "plugins"):
                     for f in sorted((base / kind).glob("[!.]*")):
                         self.want(HOME / ".config/opencode" / kind / f.name, f)
 
@@ -722,6 +723,7 @@ def cmd_sync(_a):
         host, state, problems = host_name(), load_json(STATE), []
         for k in ("approved", "trusted_commit", "external_trusted"):  # left over from the retired laptop gate
             state.pop(k, None)
+        clear_stale_locks()
         for step in (lambda: update_live(host, problems), lambda: update_overlay(state, problems),
                      lambda: sync_memory(host, state, problems),
                      lambda: problems.extend(externals(host, host_conf(host))),
@@ -732,6 +734,20 @@ def cmd_sync(_a):
                 problems.append(f"{type(e).__name__}: {e}")
                 log(traceback.format_exc().strip())
         return finish(state, problems)
+
+
+def clear_stale_locks():
+    """A git killed mid-run leaves index.lock behind, which fails every later sync until someone notices.
+    Only sync touches these clones and it holds sync.lock, so an old index.lock is always a leftover."""
+    for repo in (LIVE, OVERLAY, MEMORY_LIVE):
+        lock = repo / ".git/index.lock"
+        try:
+            age = time.time() - lock.stat().st_mtime
+        except FileNotFoundError:
+            continue
+        if age > STALE_LOCK_AGE:
+            lock.unlink(missing_ok=True)
+            log(f"removed stale {lock} ({age / 3600:.1f} h old)")
 
 
 def check_bootstrap(host, problems):

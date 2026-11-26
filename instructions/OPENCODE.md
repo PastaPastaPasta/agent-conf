@@ -15,9 +15,19 @@ other harness.
   aliases, authentication, or provider environment.
 - Never add a proxy or custom model provider to Codex. Its native configuration
   is shared with the Codex GUI app and must remain compatible with it.
-- Reading portable skills from those locations is allowed.
+- Reading portable skills and memory notes from those locations is allowed.
 - If the user explicitly asks to change a protected native-agent path, explain
   this boundary and require them to confirm that exact exception first.
+
+## Memory
+
+pasta's agents share a persistent memory: Markdown notes under
+`~/.claude/projects/<key>/memory/`, kept in sync across machines by
+agent-config. The `agent-memory` plugin adds the `MEMORY.md` indexes for the
+current project, for `~/workspace` (shared across projects) and for `~` to every
+session. Read a linked note by its absolute path when its hook is relevant, and
+verify what it says against live state before acting on it. The folders are
+read-only here; report durable new facts in your final reply instead.
 
 ## Git workflow
 
