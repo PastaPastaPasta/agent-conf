@@ -1,4 +1,3 @@
-import type { Plugin } from "@opencode-ai/plugin"
 import { execFileSync } from "node:child_process"
 import { readFileSync, statSync } from "node:fs"
 import { homedir } from "node:os"
@@ -56,7 +55,7 @@ function readIndex(folder: string) {
   return text
 }
 
-function memoryPrompt(directory: string) {
+export function memoryPrompt(directory: string) {
   const sections = memoryFolders(directory)
     .map(({ label, folder }) => ({ label, folder, index: readIndex(folder) }))
     .filter((s) => s.index)
@@ -73,9 +72,13 @@ function memoryPrompt(directory: string) {
   ].join("\n")
 }
 
-export default (async ({ directory }) => ({
-  "experimental.chat.system.transform": async (_input, output) => {
-    const prompt = memoryPrompt(directory)
-    if (prompt) output.system.push(prompt)
+export default {
+  id: "agent-memory",
+  setup: async (ctx: { location: { directory: string }; session: { hook: Function } }) => {
+    const directory = ctx.location.directory
+    await ctx.session.hook("context", (input: { system: { type: "text"; text: string }[] }) => {
+      const prompt = memoryPrompt(directory)
+      if (prompt) input.system.push({ type: "text", text: prompt })
+    })
   },
-})) satisfies Plugin
+}
