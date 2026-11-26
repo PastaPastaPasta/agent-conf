@@ -2,10 +2,11 @@
 
 OpenCode is the only experimental agent environment on this machine. Custom
 provider routing, model aliases and related experiments live in
-`~/.config/opencode/` (hand-managed: `opencode.json`, `plugins/` and the
-plugin dependencies). Everything portable — the skills, the agents and commands,
-and this file — comes from `~/workspace/agent-conf` and is synced like every
-other harness.
+`~/.config/opencode/` (hand-managed: `opencode.json`, local plugins and the
+plugin dependencies). Everything portable — the skills, the agents, commands and
+synced plugins such as `agent-memory.ts`, and this file — comes from
+`~/workspace/agent-conf` and is synced like every other harness; sync also keeps
+the synced plugins listed in `opencode.json`'s `plugin` array.
 
 ## Native-agent boundary
 

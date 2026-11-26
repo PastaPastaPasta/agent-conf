@@ -201,16 +201,18 @@ check("x.md" not in mem_tree and ".tmp" not in mem_tree, "machine-local memory a
 check(sh("git", "-C", str(A / ".local/share/agent-config/memory"), "config", "user.name").stdout.strip() == "mac-signer",
       "host git_config applied to the memory repo clone")
 rc, out = ac(A, "sync")
-check(rc == 0 and "linked" not in out and "rendered" not in out, "second sync is a no-op", out)
-for repo in (live_a, A / ".local/share/agent-config/memory"):
-    lock = repo / ".git/index.lock"
+check(rc == 0 and "linked" not in out and "rendered" not in out and "listed plugins" not in out,
+      "second sync is a no-op", out)
+stale = [live_a / ".git/index.lock", live_a / ".git/HEAD.lock", A / ".local/share/agent-config/memory/.git/index.lock"]
+for lock in stale:
     lock.write_text("")
     os.utime(lock, (time.time() - 3600, time.time() - 3600))
-fresh = live_a / ".git/index.lock"
+young = live_a / ".git/refs/heads/young.lock"
+young.write_text("")
 rc, out = ac(A, "sync")
-check(rc == 0 and "removed stale" in out and not fresh.exists()
-      and not (A / ".local/share/agent-config/memory/.git/index.lock").exists(),
-      "sync clears a stale index.lock left in its own clones", out)
+check(rc == 0 and "removed stale" in out and not any(l.exists() for l in stale) and young.exists(),
+      "sync clears stale git locks in its own clones and keeps a fresh one", out)
+young.unlink()
 
 # --- machine B ("box"): its own memory, a conflicting note, an old CLAUDE.md symlink -------------------------
 B = machine("B", "box")

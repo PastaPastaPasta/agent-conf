@@ -21,11 +21,11 @@ function repoRoot(directory: string) {
   }
 }
 
-function memoryFolders(directory: string) {
+function memoryFolders(root: string) {
   const home = homedir()
   const projects = join(home, ".claude", "projects")
   const candidates: [string, string][] = [
-    ["this project", repoRoot(directory)],
+    ["this project", root],
     ["~/workspace, shared across projects", join(home, "workspace")],
     ["~, personal", home],
   ]
@@ -55,8 +55,8 @@ function readIndex(folder: string) {
   return text
 }
 
-export function memoryPrompt(directory: string) {
-  const sections = memoryFolders(directory)
+function memoryPrompt(folders: { label: string; folder: string }[]) {
+  const sections = folders
     .map(({ label, folder }) => ({ label, folder, index: readIndex(folder) }))
     .filter((s) => s.index)
     .map((s) => `## Memory: ${s.label}\nFolder: ${s.folder}\n\n${s.index}`)
@@ -75,10 +75,17 @@ export function memoryPrompt(directory: string) {
 export default {
   id: "agent-memory",
   setup: async (ctx: { location: { directory: string }; session: { hook: Function } }) => {
-    const directory = ctx.location.directory
-    await ctx.session.hook("context", (input: { system: { type: "text"; text: string }[] }) => {
-      const prompt = memoryPrompt(directory)
-      if (prompt) input.system.push({ type: "text", text: prompt })
+    const folders = memoryFolders(repoRoot(ctx.location.directory))
+    const perSession = new Map<string, string>()
+    await ctx.session.hook("context", (input: { sessionID: string; system: { type: "text"; text: string }[] }) => {
+      try {
+        let prompt = perSession.get(input.sessionID)
+        if (prompt === undefined) {
+          prompt = memoryPrompt(folders)
+          perSession.set(input.sessionID, prompt)
+        }
+        if (prompt) input.system.push({ type: "text", text: prompt })
+      } catch {}
     })
   },
 }

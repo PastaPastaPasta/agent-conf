@@ -141,11 +141,11 @@ def merged_manifest(name, repo=LIVE):
     return data
 
 
-def backup(path):
-    """Move something we're about to replace into the backup folder; returns where it went."""
+def backup(path, copy=False):
+    """Move (or copy) something we're about to replace into the backup folder; returns where it went."""
     dest = DATA / "backup" / STAMP / Path(path).relative_to(HOME)
     dest.parent.mkdir(parents=True, exist_ok=True)
-    shutil.move(str(path), str(dest))
+    (shutil.copy2 if copy else shutil.move)(str(path), str(dest))
     return dest
 
 
@@ -668,7 +668,8 @@ class Applier:
         conf_dir = HOME / ".config/opencode"
         if not conf_dir.is_dir():
             return
-        ours = sorted(f"./plugins/{Path(l).name}" for l in self.wanted if Path(l).parent == conf_dir / "plugins")
+        ours = sorted(f"./plugins/{Path(l).name}" for l in self.wanted
+                      if Path(l).parent == conf_dir / "plugins" and Path(l).suffix in (".ts", ".js", ".mjs"))
         added = self.state.get("opencode_plugins", [])
         path = conf_dir / "opencode.json"
         if not ours and not added:
@@ -676,7 +677,9 @@ class Applier:
         try:
             cfg = json.loads(path.read_text()) if path.exists() else {"$schema": "https://opencode.ai/config.json"}
         except ValueError as e:
-            self.problems.append(f"{path} is not plain JSON ({e}); list {ours} under \"plugin\" by hand")
+            missing = [p for p in ours if f'"{p}"' not in path.read_text()]
+            if missing:
+                self.problems.append(f"{path} is not plain JSON ({e}); list {missing} under \"plugin\" by hand")
             return
         listed = cfg.get("plugin", [])
         if not isinstance(listed, list):
@@ -686,12 +689,15 @@ class Applier:
         self.state["opencode_plugins"] = ours
         if want == listed:
             return
-        if path.exists():
-            dest = DATA / "backup" / STAMP / path.relative_to(HOME)
-            dest.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(path, dest)
         cfg["plugin"] = want
-        write_atomic(path, json.dumps(cfg, indent=2, ensure_ascii=False) + "\n")
+        data = json.dumps(cfg, indent=2, ensure_ascii=False) + "\n"
+        if path.exists():
+            backup(path, copy=True)
+            target, mode = path.resolve(), path.stat().st_mode & 0o777
+            write_atomic(target, data)
+            os.chmod(target, mode)
+        else:
+            write_atomic(path, data)
         log(f"listed plugins {want} in {path}")
 
     def run(self):
@@ -773,14 +779,15 @@ def clear_stale_locks():
     """A git killed mid-run leaves index.lock behind, which fails every later sync until someone notices.
     Only sync touches these clones and it holds sync.lock, so an old index.lock is always a leftover."""
     for repo in (LIVE, OVERLAY, MEMORY_LIVE):
-        lock = repo / ".git/index.lock"
-        try:
-            age = time.time() - lock.stat().st_mtime
-        except FileNotFoundError:
-            continue
-        if age > STALE_LOCK_AGE:
-            lock.unlink(missing_ok=True)
-            log(f"removed stale {lock} ({age / 3600:.1f} h old)")
+        gitdir = repo / ".git"
+        for lock in [*gitdir.glob("*.lock"), *gitdir.glob("refs/**/*.lock")]:
+            try:
+                age = time.time() - lock.stat().st_mtime
+                if age > STALE_LOCK_AGE:
+                    lock.unlink(missing_ok=True)
+                    log(f"removed stale {lock} ({age / 3600:.1f} h old)")
+            except OSError as e:
+                log(f"could not clear {lock}: {e}")
 
 
 def check_bootstrap(host, problems):
