@@ -662,10 +662,43 @@ class Applier:
             rendered[dest_rel] = new
             log(f"rendered {dest}")
 
+    def opencode_plugins(self):
+        """OpenCode loads only the plugins its opencode.json lists. Keep ours listed (and drop ones we added that
+        are gone) without touching anything else in that hand-managed file."""
+        conf_dir = HOME / ".config/opencode"
+        if not conf_dir.is_dir():
+            return
+        ours = sorted(f"./plugins/{Path(l).name}" for l in self.wanted if Path(l).parent == conf_dir / "plugins")
+        added = self.state.get("opencode_plugins", [])
+        path = conf_dir / "opencode.json"
+        if not ours and not added:
+            return
+        try:
+            cfg = json.loads(path.read_text()) if path.exists() else {"$schema": "https://opencode.ai/config.json"}
+        except ValueError as e:
+            self.problems.append(f"{path} is not plain JSON ({e}); list {ours} under \"plugin\" by hand")
+            return
+        listed = cfg.get("plugin", [])
+        if not isinstance(listed, list):
+            self.problems.append(f"{path}: \"plugin\" is not a list; list {ours} there by hand")
+            return
+        want = [p for p in listed if p in ours or p not in added] + [p for p in ours if p not in listed]
+        self.state["opencode_plugins"] = ours
+        if want == listed:
+            return
+        if path.exists():
+            dest = DATA / "backup" / STAMP / path.relative_to(HOME)
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(path, dest)
+        cfg["plugin"] = want
+        write_atomic(path, json.dumps(cfg, indent=2, ensure_ascii=False) + "\n")
+        log(f"listed plugins {want} in {path}")
+
     def run(self):
         self.skills()
         self.support_files()
         self.link_all()
+        self.opencode_plugins()
         self.instructions()
 
 
