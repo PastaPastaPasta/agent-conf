@@ -1,6 +1,6 @@
 # agent-conf
 
-Shared agent setup kept in sync across machines that run coding agents (T3 Code, Claude Code, Codex, Cursor, Gemini CLI, Antigravity; Muse reads Claude Code's files itself).
+Shared agent setup kept in sync across machines that run coding agents (T3 Code, Claude Code, Codex, Cursor, Gemini CLI, Antigravity, OpenCode; Muse reads Claude Code's files itself).
 
 Private host configurations, private infrastructure skills, and Claude Code memory live in separate optional private repositories so this repository stays cleanly shareable.
 
@@ -8,13 +8,14 @@ Private host configurations, private infrastructure skills, and Claude Code memo
 
 | Source | On each machine |
 |---|---|
-| `skills/<name>/` + `skills.json` | Symlinked into `~/.claude/skills`, `~/.codex/skills`, `~/.cursor/skills`, `~/.gemini/skills` (Gemini CLI) and `~/.gemini/config/skills` (Antigravity) per each skill's `targets`, on machines where that harness's folder exists. Muse discovers `~/.claude/skills` and `~/.codex/skills` itself. `hosts` limits a skill to specific hosts; a host's `skip_skills` drops it there. A skill with `git` lives in its own repo, cloned to `path` and fast-forwarded. Skills removed from the manifest are unlinked. |
-| `instructions/CLAUDE.md`, `instructions/AGENTS.md`, `instructions/GEMINI.md`, `instructions/CURSOR.md` | Rendered to `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md` and `~/.cursor/rules/global-workflow.mdc`, with the host's `notes` prepended, `drop_sections` removed and `replace` rules applied. YAML frontmatter (Cursor) stays first. |
+| `skills/<name>/` + `skills.json` | Symlinked into `~/.claude/skills`, `~/.codex/skills`, `~/.cursor/skills`, `~/.gemini/skills` (Gemini CLI), `~/.gemini/config/skills` (Antigravity) and `~/.config/opencode/skills` (OpenCode, which auto-discovers that folder) per each skill's `targets`, on machines where that harness's folder exists. Muse discovers `~/.claude/skills` and `~/.codex/skills` itself. `hosts` limits a skill to specific hosts; a host's `skip_skills` drops it there. A skill with `git` lives in its own repo, cloned to `path` and fast-forwarded. Skills removed from the manifest are unlinked. |
+| `instructions/CLAUDE.md`, `instructions/AGENTS.md`, `instructions/GEMINI.md`, `instructions/CURSOR.md`, `instructions/OPENCODE.md` | Rendered to `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md`, `~/.cursor/rules/global-workflow.mdc` and `~/.config/opencode/AGENTS.md`, with the host's `notes` prepended, `drop_sections` removed and `replace` rules applied. YAML frontmatter (Cursor) stays first. |
+| `opencode/{agents,commands}/`, `hosts/<host>/opencode/…` | Symlinked into `~/.config/opencode/…`; host folders add machine-only files. The repo's agents intentionally carry no model assignments (machine-specific); per-machine model overrides go in the hand-managed `~/.config/opencode/opencode.json`. |
 | `claude/{agents,commands,scripts}/`, `hosts/<host>/claude/…` | Symlinked into `~/.claude/…`; host folders add machine-only files. |
 | Optional private overlay repo (`--overlay-repo`) | Merged on top of `hosts.json`, `skills.json`, `skills/`, `hosts/`, `claude/`, and `instructions/`. Keeps private host configs and private infrastructure skills out of this public repo. |
 | Optional private memory repo (`--memory-repo` or `memory_repo` in `hosts.json`) | Three-way merges `memory/home`, `memory/workspace`, and `memory/workspace-<repo>` both ways with `~/.claude/projects/<key>/memory`. Omitted = memory sync skipped cleanly. |
 
-Not managed: `settings.json`, credentials, MCP config, hooks registration, Codex `config.toml` and its `.system` skills, Cursor rules other than `global-workflow.mdc`, and memory for harnesses other than Claude Code.
+Not managed: `settings.json`, credentials, MCP config, hooks registration, Codex `config.toml` and its `.system` skills, Cursor rules other than `global-workflow.mdc`, and memory for harnesses other than Claude Code. OpenCode's hand-managed `~/.config/opencode/opencode.json` (providers, keys and model assignments), `plugins/` and their dependencies stay in place per machine.
 
 ## Where things live on a machine
 

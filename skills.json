@@ -4,7 +4,8 @@
   "path": "workspace/agentic-qa",
   "targets": [
    "claude",
-   "cursor"
+   "cursor",
+   "opencode"
   ]
  },
  "babysit": {
@@ -13,7 +14,8 @@
    "claude",
    "codex",
    "cursor",
-   "gemini"
+   "gemini",
+   "opencode"
   ]
  },
  "backport": {
@@ -22,7 +24,8 @@
    "claude",
    "codex",
    "cursor",
-   "gemini"
+   "gemini",
+   "opencode"
   ]
  },
  "backport-pr-codereview": {
@@ -33,14 +36,16 @@
    "claude",
    "codex",
    "cursor",
-   "gemini"
+   "gemini",
+   "opencode"
   ]
  },
  "base-sdk": {
   "targets": [
    "claude",
    "codex",
-   "cursor"
+   "cursor",
+   "opencode"
   ]
  },
  "boat": {
@@ -49,7 +54,8 @@
    "claude",
    "codex",
    "cursor",
-   "gemini"
+   "gemini",
+   "opencode"
   ]
  },
  "capture-visual-evidence": {
@@ -58,7 +64,8 @@
    "claude",
    "codex",
    "cursor",
-   "gemini"
+   "gemini",
+   "opencode"
   ]
  },
  "code-review-validator": {
@@ -66,7 +73,8 @@
    "antigravity",
    "codex",
    "cursor",
-   "gemini"
+   "gemini",
+   "opencode"
   ]
  },
  "code-simplifier": {
@@ -74,21 +82,24 @@
    "antigravity",
    "codex",
    "cursor",
-   "gemini"
+   "gemini",
+   "opencode"
   ]
  },
  "council": {
   "targets": [
    "claude",
    "codex",
-   "cursor"
+   "cursor",
+   "opencode"
   ]
  },
  "dash-core-development": {
   "targets": [
    "antigravity",
    "cursor",
-   "gemini"
+   "gemini",
+   "opencode"
   ]
  },
  "dash-core-security-auditor": {
@@ -96,7 +107,8 @@
    "antigravity",
    "codex",
    "cursor",
-   "gemini"
+   "gemini",
+   "opencode"
   ]
  },
  "dash-faucet": {
@@ -105,7 +117,8 @@
    "claude",
    "codex",
    "cursor",
-   "gemini"
+   "gemini",
+   "opencode"
   ]
  },
  "dash-functional-tests": {
@@ -114,7 +127,8 @@
    "claude",
    "codex",
    "cursor",
-   "gemini"
+   "gemini",
+   "opencode"
   ]
  },
  "dash-pr-release-notes": {
@@ -122,13 +136,15 @@
    "antigravity",
    "codex",
    "cursor",
-   "gemini"
+   "gemini",
+   "opencode"
   ]
  },
  "dash-quick-merges": {
   "targets": [
    "codex",
-   "cursor"
+   "cursor",
+   "opencode"
   ]
  },
  "file-issue": {
@@ -137,7 +153,8 @@
    "claude",
    "codex",
    "cursor",
-   "gemini"
+   "gemini",
+   "opencode"
   ]
  },
  "file-pr": {
@@ -146,7 +163,8 @@
    "claude",
    "codex",
    "cursor",
-   "gemini"
+   "gemini",
+   "opencode"
   ]
  },
  "flake-to-fix": {
@@ -155,28 +173,32 @@
    "claude",
    "codex",
    "cursor",
-   "gemini"
+   "gemini",
+   "opencode"
   ]
  },
  "full-send": {
   "targets": [
    "claude",
    "codex",
-   "cursor"
+   "cursor",
+   "opencode"
   ]
  },
  "full-stop": {
   "targets": [
    "claude",
    "codex",
-   "cursor"
+   "cursor",
+   "opencode"
   ]
  },
  "leaving-pr-comments": {
   "targets": [
    "claude",
    "codex",
-   "cursor"
+   "cursor",
+   "opencode"
   ]
  },
  "model-choice": {
@@ -185,14 +207,16 @@
    "claude",
    "codex",
    "cursor",
-   "gemini"
+   "gemini",
+   "opencode"
   ]
  },
  "modernize": {
   "targets": [
    "claude",
    "codex",
-   "cursor"
+   "cursor",
+   "opencode"
   ]
  },
  "platform-explorer-api": {
@@ -200,7 +224,8 @@
    "antigravity",
    "codex",
    "cursor",
-   "gemini"
+   "gemini",
+   "opencode"
   ]
  },
  "pr-review": {
@@ -208,7 +233,8 @@
    "antigravity",
    "codex",
    "cursor",
-   "gemini"
+   "gemini",
+   "opencode"
   ]
  },
  "rabbit-review-investigator": {
@@ -216,7 +242,8 @@
    "antigravity",
    "codex",
    "cursor",
-   "gemini"
+   "gemini",
+   "opencode"
   ]
  },
  "rank-dash-pr-readiness": {
@@ -224,21 +251,24 @@
    "antigravity",
    "codex",
    "cursor",
-   "gemini"
+   "gemini",
+   "opencode"
   ]
  },
  "rebase-branch": {
   "targets": [
    "claude",
    "codex",
-   "cursor"
+   "cursor",
+   "opencode"
   ]
  },
  "run-ios-simulator": {
   "targets": [
    "claude",
    "codex",
-   "cursor"
+   "cursor",
+   "opencode"
   ]
  },
  "security-report-investigator": {
@@ -246,21 +276,24 @@
    "antigravity",
    "codex",
    "cursor",
-   "gemini"
+   "gemini",
+   "opencode"
   ]
  },
  "sol-loop": {
   "targets": [
    "claude",
    "codex",
-   "cursor"
+   "cursor",
+   "opencode"
   ]
  },
  "takeover": {
   "targets": [
    "claude",
    "codex",
-   "cursor"
+   "cursor",
+   "opencode"
   ]
  }
 }

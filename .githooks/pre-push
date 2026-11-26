@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Run the tests of every skill touched by the pushed commits, and tests/ when bin/, tests/ or claude/scripts/ change.
+# Run the tests of every skill touched by the pushed commits, and tests/ when bin/, tests/, opencode/ or claude/scripts/ change.
 set -euo pipefail
 changed=""
 while read -r _ local_sha _ remote_sha; do
@@ -12,7 +12,7 @@ for m in skills.json hosts.json; do   # a broken manifest would uninstall skills
     || { echo "pre-push: $m is not a valid, non-empty JSON object" >&2; exit 1; }
 done
 dirs=$(sed -nE 's#^skills/([^/]+)/.*#skills/\1#p' <<<"$changed" | sort -u)
-grep -qE '^(bin|tests|claude/scripts)/' <<<"$changed" && dirs+=" tests"
+grep -qE '^(bin|tests|opencode|claude/scripts)/' <<<"$changed" && dirs+=" tests"
 [[ -z ${dirs// /} ]] && exit 0                                               # GNU find with no path would search .
 status=0
 for t in $(find $dirs -name 'test_*.py' -not -path '*/node_modules/*' 2>/dev/null); do
