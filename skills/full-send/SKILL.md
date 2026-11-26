@@ -128,6 +128,12 @@ with your harness's question tool (`AskUserQuestion`, `request_user_input`,
 `unwatch_pull_request` first. Put all context in the question: PR link, what
 blocks you, and the options with your recommendation first.
 
+Exception: on threads started by a Grok Bot (e.g., `Report to: Grok Bot …` or
+`— from Grok Bot …`), do **not** call the question tool — call
+`unwatch_pull_request` first, notify the spawning bot with
+`t3-notify send "<concise question/blocker>"`, write the full context in your
+normal reply, and end the turn without settling so the bot can respond.
+
 Ask only when you cannot go on alone:
 
 - You cannot prove the change.

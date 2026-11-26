@@ -14,6 +14,7 @@
 ## T3 Threads
 
 - On top-level T3 threads (never delegated subagents/children), don't leave a turn silently idle. Unless you are actively waiting on a PR watch, async delegate, or scheduled task: if the task or answer is complete, call `t3_thread_organize(action="settle")` so the thread settles at turn end — don't leave it unsettled just because follow-ups are possible, and never ask a filler "anything else?" question. If a decision, clarification, or expected next step genuinely needs user input, ask via `request_user_input` (or `request_secret` for secrets) so the thread enters waiting state instead of stopping in plain text.
+- **Exception for Grok Bot-started threads** (e.g., carries `Report to: Grok Bot …` or `— from Grok Bot …`): do **not** use `request_user_input` (the user-input rule above does not apply). Instead, notify the spawning Grok Bot via `t3-notify send "<concise question/blocker>"` (uses `$T3CODE_THREAD_ID` and the thread's routed bot by default), include the details in your normal reply, and end the turn without settling so the bot can reply. (Use `request_secret` only when a secret/password must come directly from the user.)
 
 ## Acting on My Behalf
 
