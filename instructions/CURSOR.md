@@ -11,7 +11,7 @@ alwaysApply: true
 
 ## Workflow & Quality
 
-- Build and run relevant fast tests and linters locally for code, header, or build changes; follow the repo's `AGENTS.md` / `CLAUDE.md` (Dash Core: CMake with `~/workspace/dash/depends/<triplet>/toolchain.cmake`, `ctest`, and `dash-functional-tests`).
+- Build and run relevant fast tests and linters locally for code, header, or build changes; follow the repo's `AGENTS.md` / `CLAUDE.md`.
 - For non-trivial changes, run `code-review-validator`; after significant new code, run `code-simplifier`. Code comments are discouraged.
 - Be mindful and respectful of local resource limits: before CPU-, memory-, or disk-heavy work, check host headroom via metrics (load vs. `nproc`, disk I/O wait, free RAM / cgroup limit, free disk) and use `cloud-compute` when bottlenecked or for reproducible benchmarks.
 
