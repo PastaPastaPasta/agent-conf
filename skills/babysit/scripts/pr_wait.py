@@ -22,7 +22,8 @@ from contextlib import contextmanager
 from datetime import datetime, timedelta, timezone
 
 OWN_REPLY_MARKERS = ("Posted autonomously by Claude", "Posted autonomously by Codex",
-                     "Posted autonomously by Cursor", "Posted autonomously by Gemini")
+                     "Posted autonomously by Cursor", "Posted autonomously by Gemini",
+                     "Posted autonomously by OpenCode")
 FAILED = {"failure", "timed_out", "action_required", "startup_failure", "stale", "error"}
 OK = {"success", "neutral", "skipped"}
 DECISIVE = {"APPROVED", "CHANGES_REQUESTED", "DISMISSED"}

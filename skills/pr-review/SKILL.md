@@ -5,61 +5,41 @@ description: Run a thorough code review of a pull request covering file-level ri
 
 # PR Review
 
-A focused review automation for one GitHub pull request.
+Run a thorough, evidence-backed code review of a single GitHub pull request.
 
-## What this skill does
+For **Dash Core final merge-gate calls** (`MERGE` / `BLOCK`), use `dash-pr-final-review` instead. For **Bitcoin Core backports into Dash Core**, run `backport-pr-codereview` alongside this review.
 
-This skill produces a thorough PR packet with:
-- PR metadata and ownership context
-- commit/CI/check health
-- diff-level evidence (`+/-` style snippets)
-- line-level risk findings with severity (`high`, `medium`, `low`)
-- early risk signals and a final review signal (`APPROVED`, `APPROVED WITH SUGGESTIONS`, `REQUIRES CHANGES`)
-- review comments and review summaries
+## Workflow
 
-## Invocation
+1. **Gather PR state.** Fetch metadata, diff, CI checks, and open review threads with `gh` — or use the bundled packet helper (`scripts/review_pr.py`, next to this file) for a quick structured snapshot:
 
-Primary pattern (run `scripts/review_pr.py`, next to this file):
+   ```bash
+   python3 scripts/review_pr.py <PR_NUMBER> [--repo owner/repo] [--json-only]
+   ```
 
-```bash
-python3 scripts/review_pr.py <PR_NUMBER>
-```
+   Treat any heuristic flags from `review_pr.py` as starting prompts, never as confirmed findings.
 
-Optional flags:
+2. **Read the real diff and surrounding code.** Inspect `gh pr diff` and read callers/callees in a local checkout when behavior is non-obvious. Do not review from the PR title or summary alone.
 
-- `--repo owner/repo` (when running outside the target repo)
-- `--local-checkout` (attempt local checkout for manual follow-up)
-- `--max-comments N`
-- `--json-only` (skip recommendations/checklist section)
+3. **Review across four passes:**
+   - **Correctness & edge cases:** does the patch solve the stated problem without regressions, broken callers, or dropped invariants?
+   - **Security & reliability:** input validation, auth/trust boundaries, error paths, concurrency/lifetimes, consensus or state safety.
+   - **Scope & design:** minimal change, clean fit with existing patterns, no accidental refactoring or scope creep.
+   - **Tests & CI:** do tests actually prove the change? Distinguish genuine patch failures from CI flakes/infra issues.
 
-## Review workflow
+4. **Check discussion context.** Read unresolved human and bot review threads; note what is already answered, superseded, or still open.
 
-1. Resolve repository context.
-2. Pull PR metadata, files, inline comments, issue comments, and check runs.
-3. Run heuristic diff analysis on added lines and emit severity-ranked findings.
-4. Rank risk signals first, then map unresolved discussion points.
-5. Emit final recommendation signal.
-
-## Severity rubric
-
-- `high`: definite risk patterns (dynamic execution, deserialization/exec-style calls, major merge risk).
-- `medium`: likely risk patterns (placeholder comments, debug output, broad error handling, possible credentials).
-- `low`: weaker risk patterns that still need reviewer attention.
+5. **Conclude clearly:** `APPROVED`, `APPROVED WITH SUGGESTIONS`, or `REQUIRES CHANGES`.
 
 ## Output contract
 
-1. PR metadata
-2. File risk map
-3. Detailed findings (file + line + rationale)
-4. Files/diff snippets
-5. Discussion summary
-6. CI/check state and blockers
-7. Early-risk signals
-8. Suggested review checkpoints + review outcome
+1. **Verdict** (`APPROVED`, `APPROVED WITH SUGGESTIONS`, or `REQUIRES CHANGES`) + 1–3 sentence summary.
+2. **Findings** ordered by severity (`high`, `medium`, `low`), each with `file:line`, observed behavior, and concrete fix.
+3. **CI & thread status** — failing/pending checks and any open review threads that matter.
+4. **Gaps / not verified** — anything you could not run or inspect.
 
 ## Guardrails
 
-- Requires authenticated GitHub CLI (`gh auth login`).
-- Do not infer conclusions beyond collected evidence.
-- Treat heuristic findings as review prompts, not certainties.
-- If checks are failing or merge state is blocked/dirty, escalate to `REQUIRES CHANGES` unless user scope explicitly permits.
+- Base every finding on observed code behavior, not style nitpicks.
+- Do not post comments or formal GitHub reviews unless asked. When posting on GitHub, follow `leaving-pr-comments`.
+- If required checks are failing or the branch conflicts with base, escalate to `REQUIRES CHANGES` unless the user explicitly scopes the review to code only.

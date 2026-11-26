@@ -15,9 +15,9 @@ Check the `limits` skill, call `orchestrator_capabilities`, then start the three
 | Astra | `codex` | `gpt-6.2-astra` | `reasoningEffort: high` |
 | Muse | `muse` | `muse-wonder-full-1.0` | `effort: high` |
 
-- When OpenAI or Muse is DEFICIT, CRITICAL or UNKNOWN, Fable 5.2 high (`claudeAgent`, `claude-fable-5-2`) takes that seat.
+- When OpenAI or Muse is DEFICIT, CRITICAL or UNKNOWN, Fable 5.2 high (`claudeAgent`, `claude-fable-5-2`) takes that seat — check `claude_fable` in `limits` first so you don't route into an exhausted Fable sub-limit.
 - A council always has an Anthropic seat and models from at least two providers. When Astra and Muse are both short, the less short of them keeps its seat, so the council is Opus, Fable and that one. Never run an all-Claude council.
-- If `limits` lists no council, stop and report it. If `limits` is unreachable, use the table.
+- If `limits` lists no council, stop and report it. If `limits` is unreachable or stale, use the default table above (Opus + Astra + Muse) rather than swapping non-Claude seats to Fable.
 
 Use exactly these seats at these efforts. If one is unavailable or errors twice, stop and report it.
 

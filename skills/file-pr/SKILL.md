@@ -21,10 +21,10 @@ assume. Then:
 
 | Repo | Push to | `gh pr create` | Base |
 | --- | --- | --- | --- |
+| `dashpay/dash` | the `PastaPastaPasta/dash` fork, never `dashpay/dash` (pick by URL) unless pasta explicitly says so for this case | `--repo dashpay/dash --head PastaPastaPasta:<branch>` | `develop` |
+| `dashpay/bls-signatures` | the `PastaPastaPasta/bls-signatures` fork, never `dashpay/bls-signatures` unless pasta explicitly says so | `--repo dashpay/bls-signatures --head PastaPastaPasta:<branch>` | upstream default |
 | `dashpay/platform` | the remote whose URL is `github.com/dashpay/platform`, never a fork | `--repo dashpay/platform --head <branch>` | current `v*-dev` |
-| `dashpay/dash` | the `PastaPastaPasta/dash` fork, never dashpay/dash (pick by URL) unless pasta explicitly says so for this case | `--repo dashpay/dash --head PastaPastaPasta:<branch>` | `develop` |
-| `dashpay/dash-wallet` | the remote whose URL is `github.com/dashpay/dash-wallet`, never the PastaPastaPasta fork (fork PRs fail CI) | `--repo dashpay/dash-wallet --head <branch>` | the working branch the change targets |
-| other `dashpay/*` | either the dashpay remote or your fork remote; both are fine | `--repo dashpay/<repo> --head <branch>` (same repo) or `--head <fork-owner>:<branch>` (fork) | upstream default |
+| all other `dashpay/*` (`dash-wallet`, `base-sdk`, `rust-dashcore`, etc.) | the remote whose URL is `github.com/dashpay/<repo>`, in-repo (never a fork — fork PRs fail or skip CI on several repos; exception: `dashpay/guix.sigs` uses the fork per `dash-guix-release`) | `--repo dashpay/<repo> --head <branch>` | repo's working branch (e.g. `develop`, `main`, or target feature branch) |
 | yappr | `origin` | `--base staging` | `staging`, never `master` |
 | anything else | `origin` | defaults | the repo's working branch |
 
@@ -87,9 +87,10 @@ changes:
 - No internal review notes (council, scores, review rounds, model names) in PR
   descriptions, PR comments or commit messages. Report those to the user, not
   on GitHub. The comment footer's model slug is the one exception.
-- End with the attribution line your harness's instructions give (Claude: the
-  attribution reminder; Codex: `This pull request was created by Codex.`;
-  Cursor: omit it, because its global rule excludes PR descriptions).
+- Never put the autonomous comment footer (`🤖 Posted autonomously by ...`) in
+  PR descriptions; that footer is for comments/reviews only. Follow any
+  repo-specific PR template disclosure section (e.g. `base-sdk`'s "Agent
+  disclosure") when present.
 - Check the title, body, quotes and attachments for secrets and private
   details (hostnames, tailnet IPs, home infrastructure, memory contents).
 - Describe the test setup generically. Reviewers care what was tested and on

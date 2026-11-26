@@ -19,11 +19,10 @@ Actual comment.
 ```
 
 `<model-slug>` is the exact ID of the model you are running as, such as
-`claude-fable-5-2`. Other
-harnesses use the same footer with their own name in place of `Claude`
-(`Codex`, `Cursor`, or `Gemini`, per their global instructions). Do not reword
-it otherwise; `pr_wait.py` recognizes our own replies by the
-`Posted autonomously by <Harness>` prefix.
+`claude-fable-5-2`. Other harnesses use the same footer with their own name in
+place of `Claude` (`Codex`, `Cursor`, `Gemini`, or `OpenCode`, per their global
+instructions). Do not reword it otherwise; `pr_wait.py` recognizes our own
+replies by the `Posted autonomously by <Harness>` prefix.
 
 Comments posted through the **thepastaclaw** account get no footer: the bot
 account already says it is automated. Text the user asked to post verbatim

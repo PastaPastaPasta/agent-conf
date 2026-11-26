@@ -23,7 +23,7 @@ Measured on pasta's laptop (M4 Pro), full suite at `-j32`:
 From a Dash Core source dir or build dir, using the `python3` that has `dash_hash`. The helper runs `test_runner.py` with the same interpreter. It must run outside the agent sandbox: creating a RAM disk needs `hdiutil`/`diskutil`, and on macOS the volume lives under `/Volumes`.
 
 ```bash
-H=~/.claude/skills/dash-functional-tests/scripts/dash_test_ramdisk.py   # Codex: ~/.codex/..., Cursor: ~/.cursor/...
+H=<this-skill-dir>/scripts/dash_test_ramdisk.py   # next to this SKILL.md
 
 python3 $H run -j32                                                  # full suite
 python3 $H run -j8 wallet_basic.py "rpc_rawtransaction.py --legacy-wallet"

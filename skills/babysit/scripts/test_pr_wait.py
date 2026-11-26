@@ -85,14 +85,15 @@ quoted = "> fixed\n> 🤖 Posted autonomously by Claude on behalf of pasta.\n\nn
 CODEX_FOOTER = "done\n---\n🤖 Posted autonomously by Codex on behalf of pasta."
 CURSOR_FOOTER = "done\n---\n🤖 Posted autonomously by Cursor on behalf of pasta."
 GEMINI_FOOTER = "done\n---\n🤖 Posted autonomously by Gemini on behalf of pasta."
+OPENCODE_FOOTER = "done\n---\n🤖 Posted autonomously by OpenCode (inkling-2-mini) on behalf of pasta."
 put(pr(), issue=[com(1), com(2, FOOTER), com(3, quoted, user="human"), com(4, CODEX_FOOTER),
-                 com(5, CURSOR_FOOTER), com(6, GEMINI_FOOTER)], reviews=reviews,
+                 com(5, CURSOR_FOOTER), com(6, GEMINI_FOOTER), com(7, OPENCODE_FOOTER)], reviews=reviews,
     runs=[crun(10, "build", "in_progress")])
 code, out = run("once", "o/r#7")
 ids = {e.get("id") for e in out["events"]}
 check(code == 0 and sum(e.get("kind") == "review" for e in out["events"]) == 37, f"all reviews reported {out.get('error','')}")
-check(2 not in ids and 4 not in ids and 5 not in ids and 6 not in ids and 3 in ids and 999 not in ids,
-      "own Claude/Codex/Cursor/Gemini replies skipped; quoted reply kept; empty container skipped")
+check(2 not in ids and 4 not in ids and 5 not in ids and 6 not in ids and 7 not in ids and 3 in ids and 999 not in ids,
+      "own Claude/Codex/Cursor/Gemini/OpenCode replies skipped; quoted reply kept; empty container skipped")
 check(out["prs"]["o/r#7"]["reviews"] == {"human": "APPROVED"}, "latest decisive review per reviewer")
 token1 = out["ack_token"]
 

@@ -10,13 +10,13 @@ Use this skill whenever development or testing needs Dash testnet funds. faucet.
 ## Operating workflow
 
 1. Confirm the task is on Dash testnet. Refuse to send to a mainnet address (`X...`); ask for a `y...` testnet address or create one in the testnet wallet being used. Never request funds for an address the agent cannot tie to the intended testnet wallet.
-2. Send with the helper. It checks `/api/status` first and makes no request if the faucet is not `ok`:
+2. Send with the helper (`scripts/request_core_faucet.py`, next to this file). It checks `/api/status` first and makes no request if the faucet is not `ok`:
 
    ```bash
-   python3 -I ~/.claude/skills/dash-faucet/scripts/request_core_faucet.py <testnet-address>
+   python3 -I scripts/request_core_faucet.py <testnet-address>
    ```
 
-   (Codex: `~/.codex/skills/...`.) It needs only the standard library. An unkeyed `--amount` is paid exactly as requested when it is at or below the proof-of-work ceiling in `/api/status`; above that, use a browser or an API key. With an API key configured (below), add `--amount <tDASH>` to ask for larger payouts.
+   It needs only the standard library. An unkeyed `--amount` is paid exactly as requested when it is at or below the proof-of-work ceiling in `/api/status`; above that, use a browser or an API key. With an API key configured (below), add `--amount <tDASH>` to ask for larger payouts.
 3. Request only the amount needed, once. Do not retry rapidly, rotate IPs, or submit several addresses “just in case.”
 4. Verify the txid (see below). A broadcast txid is not a confirmation.
 5. Report destination, amount, txid, and whether confirmation or InstantSend verification succeeded. Do not print wallet seeds, private keys, captcha tokens, or unrelated environment values.

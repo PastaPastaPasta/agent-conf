@@ -70,9 +70,10 @@ Only the thread that owns the PR watches it. Delegated children never call
   review is complete.
 - **Pushes by someone else** don't wake you on their own; you hear about the
   new head when its checks finish.
-- **A merge ends the watch without waking you** (a close does wake you). If
-  you queue a merge or enable auto-merge, write your report first or confirm
-  the merge in the same turn.
+- **Self-initiated merges or closes don't wake you.** T3 wakes once on an
+  external merge or close, not on one you ran via CLI. If you merge, queue a
+  merge, or enable auto-merge yourself, write your report first or confirm the
+  merge in the same turn.
 - **The thread settling or being a subagent** ends the watch silently.
 - **BEHIND, unresolved threads, and base changes** are not reported. The merge
   check covers them.
@@ -196,10 +197,9 @@ sandbox disabled. If it lacks something, fix it and its tests
 
 ## Commits and signing
 
-Use the normal signing; never `--no-gpg-sign`. If signing may block on a
-prompt, run `git commit` with Bash `run_in_background`. If it hangs, leave it
-for pasta: don't kill or retry it, because retries stack prompts. If signing
-fails outright, stop and tell pasta.
+Commits sign automatically with the dedicated agent SSH key; never pass
+`--no-gpg-sign` or override signing config. If signing fails, stop and tell
+pasta rather than committing unsigned.
 
 ## Reporting
 

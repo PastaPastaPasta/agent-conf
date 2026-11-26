@@ -7,7 +7,7 @@ description: Hand off flaky tests or intermittent CI failures in dashpay/dash to
 
 A flake in dashpay/dash is a real bug, in the test or in the code, that happens to show up only some of the time. Don't ignore it, rerun it or just note it. Fix it at the root.
 
-This skill runs on Opus 5.5 (`claude-opus-5-5`) at high effort, preferably in its own T3 thread. If you are any other model or effort, or you're in the middle of other work (babysitting a PR, running tests), don't run it yourself: hand it off with the test name, the failing job's URL and log excerpt, the commit it ran on, and the runner/build config, then go back to your task. Search T3 threads for the test name before launching, so you don't start a second agent on the same flake. After the handoff you may rerun the job to unblock your own PR.
+This skill runs on Opus 5.5 (`claude-opus-5-5`) at high effort, preferably in its own T3 thread. Check `limits` before launching a new background flake-fix lane: if `limits` pauses non-critical work and the flake is not blocking a release or an urgent merge, note it and defer until the pause lifts. If you are any other model or effort, or you're in the middle of other work (babysitting a PR, running tests), don't run it yourself: hand it off with the test name, the failing job's URL and log excerpt, the commit it ran on, and the runner/build config, then go back to your task. Search T3 threads for the test name before launching, so you don't start a second agent on the same flake. After the handoff you may rerun the job to unblock your own PR.
 
 Run as a subagent, stop at the filed PR and return its URL; only the owning thread babysits it.
 
@@ -62,13 +62,13 @@ Explain the mechanism in one paragraph: what interleaving or condition produces 
 - A longer timeout is right only when you've shown the work genuinely takes that long and nothing is stuck. Say so with numbers.
 - In tests, wait for the actual condition (`wait_until` on the state, `sync_blocks`/`sync_mempools`, waiting for the specific log line or RPC result) instead of time. In product code, fix the lock, ordering or lifecycle bug.
 - If the test is right and dashd is wrong, the fix goes in dashd, and that is a bug fix with user impact; say so in the PR.
-- Keep the diff to the fix. Follow `dash-core-development` conventions.
+- Keep the diff to the fix. Follow Dash Core's `AGENTS.md` conventions.
 
 ## 5. Validate and review
 
 - Rerun the step 3 repro on the fixed build, at least as many iterations as it took to fail several times before, and report "0 of N" against the before rate. Run it on the same sanitizer build.
 - Run the test's neighbours and anything touching the same code, plus the relevant lints.
-- Get a strong-model review of the diff from another model family (Astra high by default; `model-choice` and `limits` pick the reviewer), giving it the mechanism, the repro, the before/after numbers and the diff. Fix what's valid, then run `code-review-validator` if the change is non-trivial.
+- Get an independent review of the diff from another model family (`model-choice` and `limits` pick the reviewer; Astra high by default), giving it the mechanism, the repro, the before/after numbers, and the diff, then fix what's valid.
 
 ## 6. PR and babysit
 

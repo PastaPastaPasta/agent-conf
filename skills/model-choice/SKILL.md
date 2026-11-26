@@ -14,7 +14,7 @@ Set model and effort on every delegation.
 
 - Check the `limits` skill when you launch a lane, not on every turn. Its routing says which subscription takes implementation and who sits on reviews and councils. If it is unreachable or stale, do not wait: follow its fallback (Claude STABLE, everything else UNKNOWN).
 - A long-running manager is a persistent thread that coordinates other threads or owns a product or queue over many hours or days (parity/desktop managers, the Radar coordinator, backportsys, campaign/readiness owners, overnight watchers, landing/queue triagers). It is not a one-shot task thread working on a single PR, review or bug. When Claude is CRITICAL, managers finish their current step, keep anything security, release, or explicitly requested by pasta moving, and otherwise stop launching new non-critical work until the state recovers.
-- Judgement and design always run on the Claude subscription: easy -> Opus 5.5 (`claude-opus-5-5`) medium; normal -> Opus 5.5 high; harder -> Fable 5.2 (`claude-fable-5-2`) medium; hardest -> Fable 5.2 high.
+- Judgement and design always run on the Claude subscription: easy -> Opus 5.5 (`claude-opus-5-5`) medium; normal -> Opus 5.5 high; harder -> Fable 5.2 (`claude-fable-5-2`) medium; hardest -> Fable 5.2 high. Before launching Fable 5.2 work, check `claude_fable` in `limits` (its weekly sub-limit can be short or exhausted even while general `claude` looks healthy).
 - Implementation on Claude: easy and normal -> Opus 5.5 medium; hard and hardest -> Opus 5.5 high.
 - Where implementation goes depends on Claude's state in `limits`:
   - EXCESS: everything except reviews and councils stays on Claude, even when other subscriptions are in excess too.

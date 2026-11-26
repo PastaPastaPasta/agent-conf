@@ -5,9 +5,12 @@ Verified against the live host on March 11, 2026 unless noted otherwise.
 ## Base URLs
 
 - Docs UI: `https://platform-explorer.com/api`
-- Live REST base: `https://platform-explorer.pshenmic.dev`
+- Primary live REST bases (DashHQ):
+  - Mainnet: `https://api.pe.dashhq.org`
+  - Testnet: `https://api.testnet.pe.dashhq.org`
+- Public fallback REST base (mainnet): `https://platform-explorer.pshenmic.dev`
 
-Use the docs UI for discovery. Use the live REST base for requests.
+Use the docs UI for discovery. Prefer `api.pe.dashhq.org` / `api.testnet.pe.dashhq.org` first, and fall back to `platform-explorer.pshenmic.dev` if the primary host errors.
 
 ## Verified Live Routes
 

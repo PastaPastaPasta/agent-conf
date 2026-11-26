@@ -5,7 +5,14 @@ description: Build, install, launch, and verify iOS apps in Apple Simulator from
 
 # Run an iOS app in Simulator
 
-Use `scripts/build-launch.sh` for the deterministic build/install/launch path. Read the script's `--help` before the first use in an unfamiliar repository.
+## T3 Code device tools vs. `simctl`
+
+When running in **T3 Code** (on this Mac or on a remote SSH device host such as the Mac Studio):
+
+- Use **`device_list` → `device_open` → the returned `agent-device` CLI** and **`device_screenshot`** for simulator boot, app launch/relaunch, deep links, taps, text entry, alerts, settings, screenshots, and recordings. Never run those steps with `xcrun simctl`, `idb`, or wrapper scripts unless the user explicitly asks to drive the device over SSH.
+- Use `xcodebuild`, `xcrun simctl clone`/`install`, Metro, logs, and resource injection (the build/install/fixture steps below) to prepare the `.app` and simulator fixture, then hand off launch, interaction, and screenshots to `device_open` / `agent-device`.
+
+Outside T3 Code (or when explicitly running headless `simctl` scripts), `scripts/build-launch.sh` (next to this file) provides the deterministic build/install/launch/screenshot path. Read the script's `--help` before first use in an unfamiliar repository.
 
 ## Invariants
 
@@ -63,8 +70,6 @@ scripts/build-launch.sh \
   --resource-glob '*-Info.plist' \
   --screenshot /tmp/dashwallet-<revision>.png
 ```
-
-(Cursor: `~/.cursor/skills/...`.)
 
 If CocoaPods are absent, run the repository's supported dependency setup first. Copying Pods from another worktree is acceptable only when `Podfile.lock` matches and `Pods/Manifest.lock` is verified.
 

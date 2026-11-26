@@ -149,9 +149,9 @@ If range-diff shows something you can't explain, `git reset --hard "$PRE"` (or t
 
 ## 4. Force-push to the ref the PR actually reads
 
-`<pr-remote>` is the remote whose URL is the PR's `headRepository` (`git remote -v`), not whichever remote is called `origin`. If that repository is dashpay/dash, stop and ask before pushing.
+`<pr-remote>` is the remote whose URL is the PR's `headRepository` (`git remote -v`), not whichever remote is called `origin`. If that repository is `dashpay/dash` or `dashpay/bls-signatures`, stop and ask before pushing.
 
-**dashpay/platform exception:** if the PR's head is on PastaPastaPasta/platform (`gh pr view <N> --json headRepositoryOwner`), don't push there. Fork PRs skip platform's Rust/Swift CI. Push the branch to dashpay/platform and replace the PR instead (see `file-pr`).
+**In-repo `dashpay/*` exception:** all other `dashpay/*` repos (including `dashpay/platform`, `dashpay/dash-wallet`, `dashpay/base-sdk`) work in-repo, never from `PastaPastaPasta/*` forks (fork PRs skip or fail CI). If such a PR's head is on a `PastaPastaPasta/*` fork (`gh pr view <N> --json headRepositoryOwner`), don't push there — push the branch to `dashpay/<repo>` and replace the PR instead (see `file-pr`).
 
 ### Refresh the lease target first
 

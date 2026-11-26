@@ -37,11 +37,14 @@ replaces project rules that say to ask first or to leave testing to the user,
 for this task only. Rules about *how* to test still apply: use the commands,
 fixtures and checks the repo names.
 
-Never put GUI on pasta's laptop screen (no `open`, Simulator, XCUITest, or
-windows that steal focus). For GUI and simulator proof, use the Mac Studio
-simulators over the `mac-studio` SSH host, offscreen rendering, or headless
-browsers and Xvfb. `run-ios-simulator` and `capture-visual-evidence` cover
-the details.
+Never put GUI on pasta's laptop screen (no `open`, local Simulator windows,
+XCUITest UI, or windows that steal focus). For iOS Simulator and Android
+Emulator proof, use T3 Code's device tools (`device_list` → `device_open` →
+`agent-device` + `device_screenshot`, preferring a remote device host like the
+Mac Studio when available) — never drive simulators over raw SSH or `simctl`
+unless explicitly asked. For web/desktop GUI proof, use T3's `preview_*` tools,
+headless browsers, or Xvfb. `run-ios-simulator` and `capture-visual-evidence`
+cover the details.
 
 This permission covers testing only. It does not cover the items under
 "Asking the user", and it does not bypass a harness approval prompt.
@@ -75,9 +78,10 @@ This permission covers testing only. It does not cover the items under
 Stay active from step 1 to step 7. Ending the turn while checks or bots are
 pending stops the work unless a watcher wakes you: call `watch_pull_request`
 (the `babysit` way) before ending any waiting turn. Call
-`unwatch_pull_request` before you stop short of a merge. A merge ends the watch
-without waking you, so with a merge queue or auto-merge, write the report
-before queueing or confirm the merge in the same turn.
+`unwatch_pull_request` before you stop short of a merge. T3 wakes once on an
+external merge or close, not on one you ran via CLI, so when you merge, queue a
+merge, or enable auto-merge yourself, write the report first or confirm the
+merge in the same turn.
 
 ## Proof
 
@@ -119,10 +123,10 @@ other branch-protection bypass. On repos where merging is allowed, an automated
 ## Asking the user
 
 A question in a normal message goes unseen and the thread looks finished. Ask
-with the harness's question tool (`AskUserQuestion` in Claude, `request_user_input`
-in Codex) so the thread shows it is waiting, and call `unwatch_pull_request`
-first. Put all context in the question: PR link, what blocks you, and the
-options with your recommendation first.
+with your harness's question tool (`AskUserQuestion`, `request_user_input`,
+`ask_question`, etc.) so the thread shows it is waiting, and call
+`unwatch_pull_request` first. Put all context in the question: PR link, what
+blocks you, and the options with your recommendation first.
 
 Ask only when you cannot go on alone:
 

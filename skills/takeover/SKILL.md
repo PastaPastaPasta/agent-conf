@@ -16,9 +16,11 @@ and account for uncommitted work. Treat the handoff as context, not proof.
 For a replacement PR, import the original commits onto a new branch and add
 your fixes separately. Honor an explicitly requested in-place or stacked
 continuation instead. Do not overwrite unrelated work or change the original
-PR without authorization. A dashpay/platform PR from PastaPastaPasta/platform
-always gets a replacement from a branch on dashpay/platform (`file-pr`), never
-an in-place continuation, because fork PRs skip its Rust/Swift CI.
+PR without authorization. Any `dashpay/*` PR (other than `dashpay/dash`,
+`dashpay/bls-signatures`, and `dashpay/guix.sigs`) whose head is on a
+`PastaPastaPasta/*` fork gets a replacement from an in-repo branch on
+`dashpay/<repo>` (`file-pr`), never an in-place continuation, because fork PRs
+skip or fail CI on those repos.
 
 Preserve Git authorship and existing co-author trailers. Credit the original
 contributors in the PR description and link the original PR when there is one.

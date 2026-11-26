@@ -11,7 +11,12 @@ Use the explorer docs site to discover routes, but treat the live API host as th
 
 1. Distinguish docs from API traffic.
 - Docs UI: `https://platform-explorer.com/api`
-- Live API base: `https://platform-explorer.pshenmic.dev`
+- Primary live API bases (self-hosted DashHQ):
+  - Mainnet: `https://api.pe.dashhq.org` (UI: `https://pe.dashhq.org`)
+  - Testnet: `https://api.testnet.pe.dashhq.org` (UI: `https://testnet.pe.dashhq.org`)
+- Public fallback API base (mainnet): `https://platform-explorer.pshenmic.dev`
+
+Prefer `api.pe.dashhq.org` / `api.testnet.pe.dashhq.org` first; fall back to `platform-explorer.pshenmic.dev` if the primary host returns 5xx or is unreachable.
 
 2. Probe the API before writing code.
 - Start with `GET /status`.
@@ -37,7 +42,7 @@ Use the explorer docs site to discover routes, but treat the live API host as th
 - Follow with the item route for the full record.
 
 3. Report route confidence explicitly.
-- `verified live` if you tested it against `platform-explorer.pshenmic.dev`
+- `verified live` if you tested it against the live API base (`api.pe.dashhq.org`, `api.testnet.pe.dashhq.org`, or `platform-explorer.pshenmic.dev`)
 - `documented but unverified` if it only appears in public route lists
 - `currently failing` if the live host returns 404 or server errors
 

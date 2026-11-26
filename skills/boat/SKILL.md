@@ -28,7 +28,7 @@ Local fleet reference (verify live state before deciding):
 | --- | --- | --- |
 | `laptop` | macOS arm64, 14 cores, 48 GB | Interactive workstation; macOS/iOS work |
 | `studio` | macOS arm64, 16 cores, 64 GB | Shared with CI runners, Xcode builds, and disk/CPU pressure |
-| `agentbox` | Ubuntu x86_64 VM, 48 vCPU, 172 GiB | Often runs at high load (50–190) from concurrent threads; `/tmp` is RAM-quotaed |
+| `agentbox` | Ubuntu x86_64 VM, 48 vCPU, 200 GiB | Often runs at high load (50–190) from concurrent threads; `/tmp` is RAM-quotaed |
 | `strixbox` | Ubuntu x86_64 container, 28 Zen 5 CPUs | Hard 32 GiB RAM ceiling (may drop further during `gpulab` SFT runs) and low CPU weight |
 
 **Use Boat.dev when:**
