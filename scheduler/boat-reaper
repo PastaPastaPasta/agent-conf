@@ -1,0 +1,131 @@
+#!/usr/bin/env python3
+"""Delete Boat sandboxes that have been stopped for longer than a cutoff.
+
+A stopped box keeps its disk until someone runs `boat delete`; Boat's retention does not reliably remove it.
+Run on one always-on host. Names or IDs listed in the allowlist file are kept. The allowlist must
+exist (it may be empty) so a missing file never turns into "delete everything".
+"""
+import argparse, datetime as dt, json, os, re, shutil, subprocess, sys
+
+HOME = os.path.expanduser("~")
+DEFAULT_ALLOWLIST = os.path.join(HOME, ".config/boat-reaper/allowlist")
+BOX_ID = re.compile(r"^bx_[a-z0-9]+$")
+DEFAULT_LOG = os.path.join(HOME, ".local/state/boat-reaper/reaper.log")
+
+
+def find_boat():
+    found = os.environ.get("BOAT_BIN") or shutil.which("boat")
+    for candidate in (found, os.path.join(HOME, ".ascii/bin/boat"), os.path.join(HOME, ".local/bin/boat")):
+        if candidate and os.access(candidate, os.X_OK):
+            return candidate
+    sys.exit("boat-reaper: boat CLI not found")
+
+
+def boat(binary, *args):
+    try:
+        r = subprocess.run([binary, *args, "--json", "--no-update"], capture_output=True, text=True, timeout=120)
+    except subprocess.TimeoutExpired:
+        return 124, {}, "timed out after 120s"
+    try:
+        body = json.loads(r.stdout) if r.stdout.strip() else {}
+    except json.JSONDecodeError:
+        body = {"raw": r.stdout.strip()[:300]}
+    return r.returncode, body, r.stderr.strip()
+
+
+def parse_time(value):
+    return dt.datetime.fromisoformat(value.replace("Z", "+00:00")) if value else None
+
+
+def load_allowlist(path):
+    with open(path) as f:
+        return {line.split("#", 1)[0].strip() for line in f} - {""}
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--dry-run", action="store_true", help="report what would be deleted, delete nothing")
+    ap.add_argument("--hours", type=float, default=48, help="minimum hours stopped (default 48)")
+    ap.add_argument("--max", type=int, default=15, help="abort if more than this many boxes are due (default 15)")
+    ap.add_argument("--allowlist", default=os.environ.get("BOAT_REAPER_ALLOWLIST", DEFAULT_ALLOWLIST))
+    ap.add_argument("--log", default=os.environ.get("BOAT_REAPER_LOG", DEFAULT_LOG))
+    args = ap.parse_args()
+    if args.hours < 24:
+        ap.error("--hours must be at least 24")
+
+    os.makedirs(os.path.dirname(os.path.abspath(args.log)), exist_ok=True)
+    log_file = open(args.log, "a")
+    mode = "dry-run" if args.dry_run else "live"
+
+    def log(msg):
+        line = f"{dt.datetime.now(dt.timezone.utc):%Y-%m-%dT%H:%M:%SZ} [{mode}] {msg}"
+        print(line, flush=True)
+        log_file.write(line + "\n")
+        log_file.flush()
+
+    try:
+        allow = load_allowlist(args.allowlist)
+    except OSError as e:
+        log(f"abort: allowlist {args.allowlist} unreadable ({e}); create it, even empty, to enable reaping")
+        return 2
+
+    binary = find_boat()
+    code, listing, err = boat(binary, "list", "--filter", "s")
+    if code or "sandboxes" not in listing:
+        log(f"abort: boat list failed (exit {code}): {err or listing}")
+        return 1
+    if (listing.get("pageInfo") or {}).get("hasMore"):
+        log("warning: boat list returned a partial page; only the first page is considered")
+
+    now = dt.datetime.now(dt.timezone.utc)
+    cutoff = now - dt.timedelta(hours=args.hours)
+    due, kept = [], []
+    for box in listing["sandboxes"]:
+        stopped_at = parse_time(box.get("stoppedAt"))
+        if not BOX_ID.match(box.get("id") or ""):
+            continue
+        if box.get("state") != "stopped" or stopped_at is None or stopped_at > cutoff:
+            continue
+        label = f"{box['id']} {box.get('name') or '-'} stopped {box['stoppedAt']}"
+        (kept if {box["id"], box.get("name")} & allow else due).append((box, label))
+
+    for _, label in kept:
+        log(f"keep (allowlisted): {label}")
+    if not due:
+        log(f"nothing to delete ({len(listing['sandboxes'])} stopped, none past {args.hours:g}h outside the allowlist)")
+        return 0
+
+    if len(due) > args.max and not args.dry_run:
+        for _, label in due:
+            log(f"due: {label}")
+        log(f"abort: {len(due)} boxes due, more than --max {args.max}; check them and rerun with a higher --max")
+        return 3
+
+    deleted = failures = 0
+    for box, label in due:
+        if args.dry_run:
+            log(f"would delete: {label}")
+            continue
+        code, info, err = boat(binary, "info", box["id"])
+        info = info.get("sandbox") or info
+        still_due = parse_time(info.get("stoppedAt"))
+        if code or info.get("id") != box["id"] or info.get("state") != "stopped" or not still_due or still_due > cutoff:
+            log(f"skip: {label}: changed since listing (state {info.get('state', 'unknown')}, "
+                f"stoppedAt {info.get('stoppedAt')}) {err}".rstrip())
+            continue
+        code, result, err = boat(binary, "delete", box["id"], "--yes")
+        if code:
+            failures += 1
+            log(f"delete failed: {label}: exit {code} {err or result}")
+        else:
+            deleted += 1
+            log(f"deleted: {label} (operation {(result.get('operation') or {}).get('id', '?')})")
+    if args.dry_run:
+        log(f"done: {len(due)} would delete, {len(kept)} allowlisted")
+    else:
+        log(f"done: {deleted} deleted, {failures} failed, {len(kept)} allowlisted")
+    return 1 if failures else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

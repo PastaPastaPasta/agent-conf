@@ -27,6 +27,7 @@ Not managed: `settings.json`, credentials, MCP config, hooks registration, Codex
 - `~/.local/share/agent-config/memory-base`: common ancestor for three-way memory merges.
 - `~/.local/share/agent-config/backup/<time>/`: everything sync replaced or removed in the home folder.
 - `~/.local/share/agent-config/run-sync`: scheduler bootstrap copied outside the repo so a bad commit can't break recovery. Rerun `setup` after changing `scheduler/`.
+- `scheduler/boat-reaper` (+ `.service`/`.timer`): deletes Boat sandboxes stopped for over 48 h, except IDs or names in `~/.config/boat-reaper/allowlist` (must exist; may be empty). It aborts when more than `--max` (default 15) are due. Installed by hand on one always-on host, not by `setup`: copy the two units to `~/.config/systemd/user/`, then `systemctl --user enable --now boat-reaper.timer`. It runs from the live copy, so pushes update it. Log: `~/.local/state/boat-reaper/reaper.log`. Preview with `python3 -I ~/.local/share/agent-config/live/scheduler/boat-reaper --dry-run`.
 
 ## Quick start
 

@@ -65,7 +65,7 @@ boat list --all
 
 ### Sizes and billing
 
-Billed per second while running; stopped sandboxes stop compute billing and keep their disk snapshot for at least 14 days:
+Billed per second while running. A stopped sandbox stops compute billing but keeps its disk and snapshot, and still counts as a sandbox on the account until someone runs `boat delete`:
 
 | `--type` | vCPU | RAM | Disk | Rate | Notes |
 | --- | --- | --- | --- | --- | --- |
@@ -86,7 +86,7 @@ Add `--from <saved-snapshot>` for a pre-warmed environment. Pass `--keep` only i
 
 ### Multi-step burst job (fuzzing, iterative runs, artifact retrieval)
 
-Create with an explicit `--ttl` (auto-stop defaults to 1 hour; avoid `--no-auto-stop`). Pass `--no-env` whenever running fuzzers or untrusted code:
+Create with an explicit `--ttl` (auto-stop defaults to 1 hour; avoid `--no-auto-stop`). The TTL only caps runaway compute: when it fires the box is **stopped, not deleted**, and you still owe the teardown below. Pass `--no-env` whenever running fuzzers or untrusted code:
 
 ```bash
 SANDBOX_ID="$(boat new --type large --ttl 3600 --no-env --name "work-<task>" --json \
@@ -120,8 +120,17 @@ Pull artifacts and tear down immediately when finished:
 ```bash
 boat scp --recursive "$SANDBOX_ID":/home/user/repo/artifacts ./artifacts
 boat delete "$SANDBOX_ID" --yes
-boat list
+for i in 1 2 3 4 5 6; do boat list --all --json | jq -e --arg id "$SANDBOX_ID" 'all(.sandboxes[]; .id != $id)' >/dev/null && break; sleep 10; done
 ```
+
+### Teardown rule
+
+- Teardown is done only when `boat delete <id> --yes` succeeded **and** `boat list --all` no longer shows the ID (deletion is asynchronous, so allow up to a minute). Report it as done only after both.
+- **Auto-stop is not cleanup.** A stopped box (TTL fired, `boat stop`) keeps its disk and snapshot, and Boat's 14-day retention cannot be relied on to delete it (boxes have been seen lingering). Stopping is only for a box you will `boat resume` or `boat fork` soon.
+- Plain `boat list` shows running boxes only, so it hides stopped ones. Always verify with `boat list --all`.
+- `boat run` deletes its sandbox when the command exits, so it needs no teardown; prefer it whenever you don't need the box afterwards. With `--keep`, delete the box yourself once you have pulled files.
+- To keep an environment past the job, save a named snapshot (`boat snapshot <id> <name>`), then delete the box. A named snapshot survives `boat delete`.
+- A periodic reaper deletes boxes stopped for over 48 hours unless they are allowlisted. It is a backstop, not your teardown.
 
 ### Parallel fan-out
 

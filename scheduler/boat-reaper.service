@@ -1,0 +1,7 @@
+[Unit]
+Description=Delete Boat sandboxes stopped for more than 48 hours (allowlist: ~/.config/boat-reaper/allowlist)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 -I %h/.local/share/agent-config/live/scheduler/boat-reaper
+TimeoutStartSec=1800
