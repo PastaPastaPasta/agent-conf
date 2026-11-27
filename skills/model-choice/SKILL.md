@@ -27,6 +27,7 @@ Set model and effort on every delegation.
 - Critical design (consensus, security, protocol), or when pasta says "council" -> `council` skill.
 - Codebase search -> `Explore` subagent (Haiku), in Claude Code.
 - Titles and other text generation -> Luna (`gpt-6-luna`), low.
+- Local Inkling 2 Mini (`inkling-2-mini`, OpenCode `strix-inkling/inkling-2-mini`) has a fixed number of slots shared by every box. Before starting new work on it, check its capacity endpoint (address in the `fleet` skill's local LLM doc). If it reports `saturated`, or the check fails, use another model. A request rejected with HTTP 409 `inkling_saturated` means the same: launch the work on another model rather than retrying.
 
 ## Effort
 
